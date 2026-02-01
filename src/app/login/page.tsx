@@ -39,8 +39,8 @@ export default function LoginPage() {
 
       toast.success("Login successful!");
       
-      // Redirect based on role
-      const user = result.data?.user;
+      // Redirect based on role (role is added by backend)
+      const user = result.data?.user as { role?: string } | undefined;
       if (user?.role === "ADMIN") {
         router.push("/admin");
       } else if (user?.role === "TUTOR") {

@@ -42,8 +42,6 @@ export default function RegisterPage() {
         email: data.email,
         password: data.password,
         name: data.name,
-        phone: data.phone,
-        role: data.role,
       });
 
       if (result.error) {

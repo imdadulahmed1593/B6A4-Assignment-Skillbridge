@@ -21,18 +21,21 @@ api.interceptors.response.use(
 
 // API functions for tutors
 export const tutorApi = {
-  getAll: (params?: Record<string, any>) =>
+  search: (params?: Record<string, any>) =>
     api.get("/tutors", { params }).then((res) => res.data),
   getById: (id: string) => api.get(`/tutors/${id}`).then((res) => res.data),
   createProfile: (data: any) =>
     api.post("/tutors/profile", data).then((res) => res.data),
   updateProfile: (data: any) =>
     api.put("/tutors/me/profile", data).then((res) => res.data),
-  updateAvailability: (availabilities: any[]) =>
-    api.put("/tutors/me/availability", { availabilities }).then((res) => res.data),
   getMyProfile: () => api.get("/tutors/me/profile").then((res) => res.data),
-  getMyBookings: (params?: Record<string, any>) =>
-    api.get("/tutors/me/bookings", { params }).then((res) => res.data),
+  getMyAvailability: () => api.get("/tutors/me/availability").then((res) => res.data),
+  addAvailability: (data: { dayOfWeek: number; startTime: string; endTime: string }) =>
+    api.post("/tutors/me/availability", data).then((res) => res.data),
+  updateAvailability: (id: string, data: { dayOfWeek?: number; startTime?: string; endTime?: string }) =>
+    api.put(`/tutors/me/availability/${id}`, data).then((res) => res.data),
+  deleteAvailability: (id: string) =>
+    api.delete(`/tutors/me/availability/${id}`).then((res) => res.data),
 };
 
 // API functions for categories
@@ -48,8 +51,8 @@ export const categoryApi = {
 // API functions for bookings
 export const bookingApi = {
   create: (data: any) => api.post("/bookings", data).then((res) => res.data),
-  getAll: (params?: Record<string, any>) =>
-    api.get("/bookings", { params }).then((res) => res.data),
+  getMyBookings: (params?: Record<string, any>) =>
+    api.get("/bookings/my", { params }).then((res) => res.data),
   getById: (id: string) => api.get(`/bookings/${id}`).then((res) => res.data),
   cancel: (id: string) =>
     api.patch(`/bookings/${id}/cancel`).then((res) => res.data),
@@ -72,22 +75,20 @@ export const reviewApi = {
 
 // API functions for users
 export const userApi = {
-  getMe: () => api.get("/users/me").then((res) => res.data),
-  updateMe: (data: any) => api.put("/users/me", data).then((res) => res.data),
+  getProfile: () => api.get("/users/me").then((res) => res.data),
+  updateProfile: (data: any) => api.put("/users/me", data).then((res) => res.data),
   getDashboard: () => api.get("/users/dashboard").then((res) => res.data),
 };
 
 // API functions for admin
 export const adminApi = {
-  getDashboard: () => api.get("/admin/dashboard").then((res) => res.data),
+  getDashboardStats: () => api.get("/admin/dashboard").then((res) => res.data),
   getUsers: (params?: Record<string, any>) =>
     api.get("/admin/users", { params }).then((res) => res.data),
   getUserById: (id: string) =>
     api.get(`/admin/users/${id}`).then((res) => res.data),
-  updateUserStatus: (id: string, status: string) =>
-    api.patch(`/admin/users/${id}/status`, { status }).then((res) => res.data),
   updateUserRole: (id: string, role: string) =>
     api.patch(`/admin/users/${id}/role`, { role }).then((res) => res.data),
-  getBookings: (params?: Record<string, any>) =>
+  getAllBookings: (params?: Record<string, any>) =>
     api.get("/admin/bookings", { params }).then((res) => res.data),
 };

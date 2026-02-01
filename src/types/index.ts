@@ -66,6 +66,7 @@ export interface Booking {
   status: BookingStatus;
   notes?: string;
   student?: Pick<User, "id" | "name" | "email" | "image">;
+  tutor?: TutorProfile;
   tutorProfile?: TutorProfile;
   review?: Review;
   createdAt: string;

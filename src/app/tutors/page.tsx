@@ -48,7 +48,7 @@ export default function TutorsPage() {
       if (selectedCategory) params.categoryId = selectedCategory;
       if (minRating) params.minRating = Number(minRating);
 
-      const response = await tutorApi.getAll(params);
+      const response = await tutorApi.search(params);
       setTutors(response.data || []);
       setMeta(response.meta);
     } catch (error) {
