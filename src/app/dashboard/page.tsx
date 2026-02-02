@@ -15,16 +15,21 @@ import {
 } from "react-icons/fi";
 import { Booking } from "@/types";
 
+interface BookingStat {
+  status: string;
+  _count: number;
+}
+
 interface DashboardData {
-  bookings: {
-    upcoming: Booking[];
-    past: Booking[];
-    total: number;
-    pending: number;
-    confirmed: number;
-    completed: number;
-    cancelled: number;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    image: string | null;
+    role: string;
   };
+  upcomingSessions: Booking[];
+  bookingStats: BookingStat[];
 }
 
 export default function StudentDashboard() {
@@ -75,28 +80,38 @@ export default function StudentDashboard() {
 
   if (!session?.user) return null;
 
+  // Helper to get count by status from bookingStats
+  const getStatCount = (status: string) => {
+    return (
+      dashboardData?.bookingStats?.find((s) => s.status === status)?._count || 0
+    );
+  };
+
+  const totalBookings =
+    dashboardData?.bookingStats?.reduce((sum, s) => sum + s._count, 0) || 0;
+
   const stats = [
     {
       label: "Total Bookings",
-      value: dashboardData?.bookings?.total || 0,
+      value: totalBookings,
       icon: FiBook,
       color: "bg-primary-100 text-primary-600",
     },
     {
       label: "Pending",
-      value: dashboardData?.bookings?.pending || 0,
+      value: getStatCount("PENDING"),
       icon: FiClock,
       color: "bg-yellow-100 text-yellow-600",
     },
     {
       label: "Confirmed",
-      value: dashboardData?.bookings?.confirmed || 0,
+      value: getStatCount("CONFIRMED"),
       icon: FiCalendar,
       color: "bg-blue-100 text-blue-600",
     },
     {
       label: "Completed",
-      value: dashboardData?.bookings?.completed || 0,
+      value: getStatCount("COMPLETED"),
       icon: FiCheckCircle,
       color: "bg-green-100 text-green-600",
     },
@@ -147,7 +162,7 @@ export default function StudentDashboard() {
               </Link>
             </div>
 
-            {!dashboardData?.bookings?.upcoming?.length ? (
+            {!dashboardData?.upcomingSessions?.length ? (
               <div className="text-center py-8">
                 <FiCalendar className="w-12 h-12 text-secondary-300 mx-auto mb-4" />
                 <p className="text-secondary-600 mb-4">No upcoming sessions</p>
@@ -157,18 +172,18 @@ export default function StudentDashboard() {
               </div>
             ) : (
               <div className="space-y-4">
-                {dashboardData.bookings?.upcoming.slice(0, 3).map((booking) => (
+                {dashboardData.upcomingSessions.slice(0, 3).map((booking) => (
                   <BookingCard key={booking.id} booking={booking} />
                 ))}
               </div>
             )}
           </div>
 
-          {/* Recent/Past Bookings */}
+          {/* Quick Stats */}
           <div className="card p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-secondary-900">
-                Past Sessions
+                Booking Summary
               </h2>
               <Link
                 href="/dashboard/bookings?tab=past"
@@ -178,18 +193,32 @@ export default function StudentDashboard() {
               </Link>
             </div>
 
-            {!dashboardData?.bookings?.past?.length ? (
-              <div className="text-center py-8">
-                <FiCheckCircle className="w-12 h-12 text-secondary-300 mx-auto mb-4" />
-                <p className="text-secondary-600">No past sessions yet</p>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center p-3 bg-secondary-50 rounded-lg">
+                <span className="text-secondary-600">Pending</span>
+                <span className="font-semibold text-yellow-600">
+                  {getStatCount("PENDING")}
+                </span>
               </div>
-            ) : (
-              <div className="space-y-4">
-                {dashboardData.bookings?.past.slice(0, 3).map((booking) => (
-                  <BookingCard key={booking.id} booking={booking} showReview />
-                ))}
+              <div className="flex justify-between items-center p-3 bg-secondary-50 rounded-lg">
+                <span className="text-secondary-600">Confirmed</span>
+                <span className="font-semibold text-blue-600">
+                  {getStatCount("CONFIRMED")}
+                </span>
               </div>
-            )}
+              <div className="flex justify-between items-center p-3 bg-secondary-50 rounded-lg">
+                <span className="text-secondary-600">Completed</span>
+                <span className="font-semibold text-green-600">
+                  {getStatCount("COMPLETED")}
+                </span>
+              </div>
+              <div className="flex justify-between items-center p-3 bg-secondary-50 rounded-lg">
+                <span className="text-secondary-600">Cancelled</span>
+                <span className="font-semibold text-red-600">
+                  {getStatCount("CANCELLED")}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -260,24 +289,27 @@ function BookingCard({
     CANCELLED: "bg-red-100 text-red-700",
   };
 
+  // Support both tutor and tutorProfile field names
+  const tutorUser = booking?.tutor?.user || booking?.tutorProfile?.user;
+
   return (
     <div className="flex items-start gap-4 p-4 bg-secondary-50 rounded-lg">
       <div className="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
-        {booking?.tutor?.user?.image ? (
+        {tutorUser?.image ? (
           <img
-            src={booking?.tutor?.user?.image}
-            alt={booking?.tutor?.user?.name}
+            src={tutorUser.image}
+            alt={tutorUser.name}
             className="w-full h-full object-cover rounded-full"
           />
         ) : (
           <span className="text-lg font-bold text-primary-600">
-            {booking?.tutor?.user?.name?.charAt(0) || "T"}
+            {tutorUser?.name?.charAt(0) || "T"}
           </span>
         )}
       </div>
       <div className="flex-1 min-w-0">
         <p className="font-medium text-secondary-900 truncate">
-          {booking?.tutor?.user?.name}
+          {tutorUser?.name || "Tutor"}
         </p>
         <p className="text-sm text-secondary-600">
           {new Date(booking?.scheduledAt).toLocaleDateString()} at{" "}

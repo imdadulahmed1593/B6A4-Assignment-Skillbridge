@@ -1,6 +1,28 @@
 import Link from "next/link";
 
-export default function Home() {
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+interface Category {
+  id: string;
+  name: string;
+  icon: string | null;
+}
+
+async function getCategories(): Promise<Category[]> {
+  try {
+    const res = await fetch(`${API_URL}/api/categories`, {
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.data || [];
+  } catch {
+    return [];
+  }
+}
+
+export default async function Home() {
+  const categories = await getCategories();
   return (
     <div>
       {/* Hero Section */}
@@ -76,23 +98,37 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Browse by Category
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {[
-              "📐 Mathematics",
-              "💻 Programming",
-              "🌍 Languages",
-              "🔬 Science",
-              "🎵 Music",
-              "📈 Business",
-            ].map((category) => (
-              <Link
-                key={category}
-                href="/tutors"
-                className="card p-4 text-center hover:border-primary-500 border-2 border-transparent transition-all"
-              >
-                <span className="text-lg">{category}</span>
-              </Link>
-            ))}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {categories.length > 0
+              ? categories.map((category) => (
+                  <Link
+                    key={category.id}
+                    href={`/tutors?category=${category.id}`}
+                    className="card p-4 text-center hover:border-primary-500 border-2 border-transparent transition-all"
+                  >
+                    <span className="text-2xl block mb-2">
+                      {category.icon || "📚"}
+                    </span>
+                    <span className="text-lg">{category.name}</span>
+                  </Link>
+                ))
+              : // Fallback if API fails
+                [
+                  "📐 Mathematics",
+                  "💻 Programming",
+                  "🌍 Languages",
+                  "🔬 Science",
+                  "🎵 Music",
+                  "📈 Business",
+                ].map((cat) => (
+                  <Link
+                    key={cat}
+                    href="/tutors"
+                    className="card p-4 text-center hover:border-primary-500 border-2 border-transparent transition-all"
+                  >
+                    <span className="text-lg">{cat}</span>
+                  </Link>
+                ))}
           </div>
         </div>
       </section>

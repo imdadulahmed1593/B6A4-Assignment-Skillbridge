@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { tutorApi, categoryApi } from "@/lib/api";
 import { TutorProfile, Category } from "@/types";
@@ -13,16 +14,24 @@ import {
 } from "react-icons/fi";
 
 export default function TutorsPage() {
+  const searchParams = useSearchParams();
+  const categoryFromUrl = searchParams.get("category") || "";
+
   const [tutors, setTutors] = useState<TutorProfile[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl);
   const [minRating, setMinRating] = useState("");
   const [sortBy, setSortBy] = useState("rating");
   const [showFilters, setShowFilters] = useState(false);
   const [meta, setMeta] = useState<any>(null);
   const [page, setPage] = useState(1);
+
+  // Update selectedCategory when URL changes
+  useEffect(() => {
+    setSelectedCategory(categoryFromUrl);
+  }, [categoryFromUrl]);
 
   useEffect(() => {
     fetchCategories();

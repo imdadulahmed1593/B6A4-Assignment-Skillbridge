@@ -134,8 +134,8 @@ export default function CreateReviewPage() {
               <div className="w-16 h-16 rounded-full bg-primary-100 flex items-center justify-center">
                 {booking.tutor?.user?.image ? (
                   <img
-                    src={booking.tutor.user.image}
-                    alt={booking.tutor.user.name}
+                    src={booking.tutorProfile.user.image}
+                    alt={booking.tutorProfile.user.name}
                     className="w-full h-full object-cover rounded-full"
                   />
                 ) : (

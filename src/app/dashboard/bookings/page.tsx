@@ -194,15 +194,15 @@ export default function BookingsPage() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   {/* Tutor Avatar */}
                   <div className="w-16 h-16 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0 mx-auto sm:mx-0">
-                    {booking.tutor?.user?.image ? (
+                    {booking.tutorProfile?.user?.image ? (
                       <img
-                        src={booking.tutor.user.image}
-                        alt={booking.tutor.user.name}
+                        src={booking.tutorProfile.user.image}
+                        alt={booking.tutorProfile.user.name}
                         className="w-full h-full object-cover rounded-full"
                       />
                     ) : (
                       <span className="text-2xl font-bold text-primary-600">
-                        {booking.tutor?.user?.name?.charAt(0) || "T"}
+                        {booking.tutorProfile?.user?.name?.charAt(0) || "T"}
                       </span>
                     )}
                   </div>
@@ -210,7 +210,7 @@ export default function BookingsPage() {
                   {/* Booking Info */}
                   <div className="flex-1 text-center sm:text-left">
                     <h3 className="text-lg font-semibold text-secondary-900">
-                      Session with {booking.tutor?.user?.name}
+                      Session with {booking.tutorProfile?.user?.name}
                     </h3>
                     <div className="flex flex-wrap items-center gap-4 mt-2 text-secondary-600 justify-center sm:justify-start">
                       <div className="flex items-center gap-1">

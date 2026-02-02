@@ -21,7 +21,7 @@ interface RegisterFormData {
   password: string;
   confirmPassword: string;
   phone?: string;
-  role: "USER" | "TUTOR";
+  role: "STUDENT" | "TUTOR";
 }
 
 export default function RegisterPage() {
@@ -36,7 +36,7 @@ export default function RegisterPage() {
     formState: { errors },
   } = useForm<RegisterFormData>({
     defaultValues: {
-      role: "USER",
+      role: "STUDENT",
     },
   });
 
@@ -155,7 +155,7 @@ export default function RegisterPage() {
               <div className="grid grid-cols-2 gap-4">
                 <label
                   className={`flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition-all ${
-                    watch("role") === "USER"
+                    watch("role") === "STUDENT"
                       ? "border-primary-500 bg-primary-50"
                       : "border-secondary-200 hover:border-secondary-300"
                   }`}
@@ -163,7 +163,7 @@ export default function RegisterPage() {
                   <input
                     type="radio"
                     {...register("role")}
-                    value="USER"
+                    value="STUDENT"
                     className="sr-only"
                   />
                   <div className="text-center">

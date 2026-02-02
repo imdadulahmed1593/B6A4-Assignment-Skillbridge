@@ -60,7 +60,7 @@ export const categoryApi = {
 export const bookingApi = {
   create: (data: any) => api.post("/bookings", data).then((res) => res.data),
   getMyBookings: (params?: Record<string, any>) =>
-    api.get("/bookings/my", { params }).then((res) => res.data),
+    api.get("/bookings", { params }).then((res) => res.data),
   getById: (id: string) => api.get(`/bookings/${id}`).then((res) => res.data),
   cancel: (id: string) =>
     api.patch(`/bookings/${id}/cancel`).then((res) => res.data),
