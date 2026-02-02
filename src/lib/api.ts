@@ -1,7 +1,11 @@
 import axios from "axios";
 
+// In production, use the proxy to avoid cross-origin cookie issues
+// In development, call the backend directly
 const API_URL =
-  `${process.env.NEXT_PUBLIC_API_URL}/api` || "http://localhost:5000/api";
+  process.env.NODE_ENV === "production"
+    ? "/api/proxy" // Proxied through Next.js to same origin
+    : `${process.env.NEXT_PUBLIC_API_URL}/api` || "http://localhost:5000/api";
 
 export const api = axios.create({
   baseURL: API_URL,
