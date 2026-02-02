@@ -258,7 +258,7 @@ export default function TutorDashboard() {
                 </div>
               </Link>
               <Link
-                href="/tutor/availability"
+                href="/tutor/profile"
                 className="flex items-center gap-3 p-4 bg-secondary-50 rounded-lg hover:bg-secondary-100 transition-colors"
               >
                 <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">

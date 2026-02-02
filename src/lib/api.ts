@@ -32,17 +32,12 @@ export const tutorApi = {
   getMyProfile: () => api.get("/tutors/me/profile").then((res) => res.data),
   getMyAvailability: () =>
     api.get("/tutors/me/availability").then((res) => res.data),
-  addAvailability: (data: {
-    dayOfWeek: number;
-    startTime: string;
-    endTime: string;
-  }) => api.post("/tutors/me/availability", data).then((res) => res.data),
   updateAvailability: (
-    id: string,
-    data: { dayOfWeek?: number; startTime?: string; endTime?: string },
-  ) => api.put(`/tutors/me/availability/${id}`, data).then((res) => res.data),
-  deleteAvailability: (id: string) =>
-    api.delete(`/tutors/me/availability/${id}`).then((res) => res.data),
+    availabilities: { dayOfWeek: number; startTime: string; endTime: string }[],
+  ) =>
+    api
+      .put("/tutors/me/availability", { availabilities })
+      .then((res) => res.data),
 };
 
 // API functions for categories

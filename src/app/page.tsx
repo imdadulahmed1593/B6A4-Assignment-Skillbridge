@@ -8,6 +8,26 @@ interface Category {
   icon: string | null;
 }
 
+interface Tutor {
+  id: string;
+  bio: string;
+  hourlyRate: number;
+  rating: number;
+  totalReviews: number;
+  experience: number;
+  user: {
+    id: string;
+    name: string;
+    image: string | null;
+  };
+  categories: {
+    category: {
+      id: string;
+      name: string;
+    };
+  }[];
+}
+
 async function getCategories(): Promise<Category[]> {
   try {
     const res = await fetch(`${API_URL}/api/categories`, {
@@ -21,8 +41,27 @@ async function getCategories(): Promise<Category[]> {
   }
 }
 
+async function getFeaturedTutors(): Promise<Tutor[]> {
+  try {
+    const res = await fetch(
+      `${API_URL}/api/tutors?sortBy=rating&sortOrder=desc&limit=3&isAvailable=true`,
+      {
+        next: { revalidate: 3600 }, // Cache for 1 hour
+      },
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.data || [];
+  } catch {
+    return [];
+  }
+}
+
 export default async function Home() {
-  const categories = await getCategories();
+  const [categories, featuredTutors] = await Promise.all([
+    getCategories(),
+    getFeaturedTutors(),
+  ]);
   return (
     <div>
       {/* Hero Section */}
@@ -132,6 +171,85 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* Featured Tutors Section */}
+      {featuredTutors.length > 0 && (
+        <section className="py-20 bg-secondary-50">
+          <div className="container-custom">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+              Featured Tutors
+            </h2>
+            <p className="text-secondary-600 text-center mb-12 max-w-2xl mx-auto">
+              Learn from our top-rated tutors with proven track records
+            </p>
+            <div className="grid md:grid-cols-3 gap-8">
+              {featuredTutors.map((tutor) => (
+                <Link
+                  key={tutor.id}
+                  href={`/tutors/${tutor.id}`}
+                  className="card p-6 hover:shadow-lg transition-shadow"
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-16 h-16 rounded-full bg-primary-100 flex items-center justify-center overflow-hidden">
+                      {tutor.user.image ? (
+                        <img
+                          src={tutor.user.image}
+                          alt={tutor.user.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-2xl font-bold text-primary-600">
+                          {tutor.user.name.charAt(0)}
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-secondary-900">
+                        {tutor.user.name}
+                      </h3>
+                      <div className="flex items-center gap-1 text-yellow-500">
+                        <span>⭐</span>
+                        <span className="font-medium">
+                          {tutor.rating.toFixed(1)}
+                        </span>
+                        <span className="text-secondary-500 text-sm">
+                          ({tutor.totalReviews} reviews)
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-secondary-600 text-sm mb-4 line-clamp-2">
+                    {tutor.bio || "Experienced tutor ready to help you learn."}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {tutor.categories.slice(0, 3).map((c) => (
+                      <span
+                        key={c.category.id}
+                        className="px-2 py-1 bg-primary-50 text-primary-700 text-xs rounded-full"
+                      >
+                        {c.category.name}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex items-center justify-between pt-4 border-t border-secondary-100">
+                    <span className="text-secondary-600 text-sm">
+                      {tutor.experience} years exp.
+                    </span>
+                    <span className="text-primary-600 font-semibold">
+                      ${tutor.hourlyRate}/hr
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <div className="text-center mt-8">
+              <Link href="/tutors" className="btn-primary text-lg px-8 py-3">
+                View All Tutors
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* CTA Section */}
       <section className="py-20 bg-primary-600 text-white">

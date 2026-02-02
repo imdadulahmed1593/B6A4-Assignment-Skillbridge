@@ -13,6 +13,8 @@ import {
   FiClock,
   FiStar,
   FiEdit2,
+  FiPlus,
+  FiTrash2,
 } from "react-icons/fi";
 import { TutorProfile, Category } from "@/types";
 
@@ -32,6 +34,23 @@ export default function TutorProfilePage() {
     isAvailable: true,
     categoryIds: [] as string[],
   });
+
+  // Availability state
+  const [availabilities, setAvailabilities] = useState<
+    { dayOfWeek: number; startTime: string; endTime: string }[]
+  >([]);
+  const [isEditingAvailability, setIsEditingAvailability] = useState(false);
+  const [isSavingAvailability, setIsSavingAvailability] = useState(false);
+
+  const DAYS_OF_WEEK = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
   useEffect(() => {
     if (!isPending) {
@@ -70,6 +89,16 @@ export default function TutorProfilePage() {
             profileResponse.data.categories?.map((c: any) => c.categoryId) ||
             [],
         });
+        // Set availabilities from profile
+        if (profileResponse.data.availabilities) {
+          setAvailabilities(
+            profileResponse.data.availabilities.map((a: any) => ({
+              dayOfWeek: a.dayOfWeek,
+              startTime: a.startTime,
+              endTime: a.endTime,
+            })),
+          );
+        }
       }
     } catch (error) {
       console.error("Failed to fetch data:", error);
@@ -110,6 +139,50 @@ export default function TutorProfilePage() {
         ? prev.categoryIds.filter((id) => id !== categoryId)
         : [...prev.categoryIds, categoryId],
     }));
+  };
+
+  // Availability handlers
+  const addAvailabilitySlot = () => {
+    setAvailabilities((prev) => [
+      ...prev,
+      { dayOfWeek: 1, startTime: "09:00", endTime: "17:00" },
+    ]);
+  };
+
+  const removeAvailabilitySlot = (index: number) => {
+    setAvailabilities((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const updateAvailabilitySlot = (
+    index: number,
+    field: "dayOfWeek" | "startTime" | "endTime",
+    value: string | number,
+  ) => {
+    setAvailabilities((prev) =>
+      prev.map((slot, i) => (i === index ? { ...slot, [field]: value } : slot)),
+    );
+  };
+
+  const handleSaveAvailability = async () => {
+    // Validate time slots
+    for (const slot of availabilities) {
+      if (slot.startTime >= slot.endTime) {
+        toast.error("End time must be after start time");
+        return;
+      }
+    }
+
+    setIsSavingAvailability(true);
+    try {
+      await tutorApi.updateAvailability(availabilities);
+      toast.success("Availability updated successfully!");
+      setIsEditingAvailability(false);
+      fetchData();
+    } catch (error: any) {
+      toast.error(error.message || "Failed to update availability");
+    } finally {
+      setIsSavingAvailability(false);
+    }
   };
 
   if (isPending || isLoading) {
@@ -385,7 +458,7 @@ export default function TutorProfilePage() {
 
                 {/* Categories */}
                 {profile.categories && profile.categories.length > 0 && (
-                  <div>
+                  <div className="mb-6">
                     <h3 className="font-medium text-secondary-900 mb-2">
                       Subjects
                     </h3>
@@ -401,6 +474,153 @@ export default function TutorProfilePage() {
                     </div>
                   </div>
                 )}
+
+                {/* Availability Section */}
+                <div className="border-t border-secondary-200 pt-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-medium text-secondary-900">
+                      Availability Hours
+                    </h3>
+                    {!isEditingAvailability && (
+                      <button
+                        onClick={() => setIsEditingAvailability(true)}
+                        className="text-primary-600 hover:text-primary-700 text-sm font-medium flex items-center gap-1"
+                      >
+                        <FiEdit2 className="w-4 h-4" /> Edit
+                      </button>
+                    )}
+                  </div>
+
+                  {isEditingAvailability ? (
+                    <div className="space-y-4">
+                      {availabilities.length === 0 ? (
+                        <p className="text-secondary-500 text-sm">
+                          No availability slots added yet
+                        </p>
+                      ) : (
+                        availabilities.map((slot, index) => (
+                          <div
+                            key={index}
+                            className="flex flex-wrap items-center gap-3 p-3 bg-secondary-50 rounded-lg"
+                          >
+                            <select
+                              value={slot.dayOfWeek}
+                              onChange={(e) =>
+                                updateAvailabilitySlot(
+                                  index,
+                                  "dayOfWeek",
+                                  Number(e.target.value),
+                                )
+                              }
+                              className="input-field focus:outline-none focus:ring-0 focus:border-secondary-200"
+                            >
+                              {DAYS_OF_WEEK.map((day, i) => (
+                                <option key={i} value={i}>
+                                  {day}
+                                </option>
+                              ))}
+                            </select>
+                            <div className="flex items-center gap-2">
+                              <input
+                                type="time"
+                                value={slot.startTime}
+                                onChange={(e) =>
+                                  updateAvailabilitySlot(
+                                    index,
+                                    "startTime",
+                                    e.target.value,
+                                  )
+                                }
+                                className="input-field focus:outline-none focus:ring-0 focus:border-secondary-200"
+                              />
+                              <span className="text-secondary-500">to</span>
+                              <input
+                                type="time"
+                                value={slot.endTime}
+                                onChange={(e) =>
+                                  updateAvailabilitySlot(
+                                    index,
+                                    "endTime",
+                                    e.target.value,
+                                  )
+                                }
+                                className="input-field focus:outline-none focus:ring-0 focus:border-secondary-200"
+                              />
+                            </div>
+                            <button
+                              onClick={() => removeAvailabilitySlot(index)}
+                              className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            >
+                              <FiTrash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))
+                      )}
+
+                      <button
+                        onClick={addAvailabilitySlot}
+                        className="flex items-center gap-2 text-primary-600 hover:text-primary-700 text-sm font-medium"
+                      >
+                        <FiPlus className="w-4 h-4" /> Add Time Slot
+                      </button>
+
+                      <div className="flex gap-3 pt-4">
+                        <button
+                          onClick={() => {
+                            setIsEditingAvailability(false);
+                            // Reset to original
+                            if (profile?.availabilities) {
+                              setAvailabilities(
+                                profile.availabilities.map((a: any) => ({
+                                  dayOfWeek: a.dayOfWeek,
+                                  startTime: a.startTime,
+                                  endTime: a.endTime,
+                                })),
+                              );
+                            }
+                          }}
+                          className="btn bg-secondary-100 text-secondary-700 hover:bg-secondary-200 flex-1"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          onClick={handleSaveAvailability}
+                          disabled={isSavingAvailability}
+                          className="btn-primary flex-1 disabled:opacity-50"
+                        >
+                          {isSavingAvailability
+                            ? "Saving..."
+                            : "Save Availability"}
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      {availabilities.length === 0 ? (
+                        <p className="text-secondary-500 text-sm">
+                          No availability set. Click Edit to add your available
+                          hours.
+                        </p>
+                      ) : (
+                        <div className="space-y-2">
+                          {availabilities.map((slot, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center gap-3 text-secondary-600"
+                            >
+                              <span className="font-medium w-24">
+                                {DAYS_OF_WEEK[slot.dayOfWeek]}
+                              </span>
+                              <span>
+                                {slot.startTime} - {slot.endTime}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
               </>
             )}
           </div>
