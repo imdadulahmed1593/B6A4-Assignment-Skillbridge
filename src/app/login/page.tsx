@@ -85,7 +85,7 @@ export default function LoginPage() {
                       message: "Invalid email address",
                     },
                   })}
-                  className="input-field pl-10 focus:outline-none focus:ring-0 focus:border-secondary-200"
+                  className="input-field pl-10 w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
                   placeholder="you@example.com"
                 />
               </div>
@@ -111,16 +111,16 @@ export default function LoginPage() {
                       message: "Password must be at least 6 characters",
                     },
                   })}
-                  className="input-field pl-10 pr-10 focus:outline-none focus:ring-0 focus:border-secondary-200"
+                  className="input-field pl-10 pr-10 w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
                   placeholder="••••••••"
                 />
-                <button
+                {/* <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary-400 hover:text-secondary-600"
                 >
                   {showPassword ? <FiEyeOff /> : <FiEye />}
-                </button>
+                </button> */}
               </div>
               {errors.password && (
                 <p className="text-red-500 text-sm mt-1">

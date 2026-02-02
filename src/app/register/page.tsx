@@ -96,7 +96,7 @@ export default function RegisterPage() {
                       message: "Name must be at least 2 characters",
                     },
                   })}
-                  className="input-field pl-10"
+                  className="input-field pl-10 w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
                   placeholder="John Doe"
                 />
               </div>
@@ -122,7 +122,7 @@ export default function RegisterPage() {
                       message: "Invalid email address",
                     },
                   })}
-                  className="input-field pl-10"
+                  className="input-field pl-10 w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
                   placeholder="you@example.com"
                 />
               </div>
@@ -142,7 +142,7 @@ export default function RegisterPage() {
                 <input
                   type="tel"
                   {...register("phone")}
-                  className="input-field pl-10"
+                  className="input-field pl-10 w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
                   placeholder="+1 234 567 890"
                 />
               </div>
@@ -207,16 +207,16 @@ export default function RegisterPage() {
                       message: "Password must be at least 8 characters",
                     },
                   })}
-                  className="input-field pl-10 pr-10"
+                  className="input-field pl-10 pr-10 w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
                   placeholder="••••••••"
                 />
-                <button
+                {/* <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary-400 hover:text-secondary-600"
                 >
                   {showPassword ? <FiEyeOff /> : <FiEye />}
-                </button>
+                </button> */}
               </div>
               {errors.password && (
                 <p className="text-red-500 text-sm mt-1">
@@ -238,7 +238,7 @@ export default function RegisterPage() {
                     validate: (value) =>
                       value === password || "Passwords do not match",
                   })}
-                  className="input-field pl-10"
+                  className="input-field pl-10 w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
                   placeholder="••••••••"
                 />
               </div>

@@ -13,8 +13,104 @@ import {
   FiXCircle,
   FiChevronLeft,
   FiChevronRight,
+  FiAlertTriangle,
+  FiX,
 } from "react-icons/fi";
 import { Booking } from "@/types";
+
+// Confirmation Modal Component
+function ConfirmModal({
+  isOpen,
+  onClose,
+  onConfirm,
+  title,
+  message,
+  confirmText,
+  isLoading = false,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  title: string;
+  message: string;
+  confirmText: string;
+  isLoading?: boolean;
+}) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      {/* Modal */}
+      <div className="relative bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 overflow-hidden animate-in fade-in zoom-in duration-200">
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-secondary-100">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-full bg-red-100 text-red-600">
+              <FiAlertTriangle className="w-5 h-5" />
+            </div>
+            <h3 className="text-lg font-semibold text-secondary-900">
+              {title}
+            </h3>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-1 rounded-lg hover:bg-secondary-100 text-secondary-500 transition-colors"
+          >
+            <FiX className="w-5 h-5" />
+          </button>
+        </div>
+        {/* Body */}
+        <div className="p-4">
+          <p className="text-secondary-600">{message}</p>
+        </div>
+        {/* Footer */}
+        <div className="flex justify-end gap-3 p-4 bg-secondary-50">
+          <button
+            onClick={onClose}
+            disabled={isLoading}
+            className="px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 hover:bg-secondary-100 transition-colors font-medium disabled:opacity-50"
+          >
+            Keep Booking
+          </button>
+          <button
+            onClick={onConfirm}
+            disabled={isLoading}
+            className="px-4 py-2 rounded-lg text-white font-medium transition-colors disabled:opacity-50 flex items-center gap-2 bg-red-600 hover:bg-red-700"
+          >
+            {isLoading && (
+              <svg
+                className="animate-spin h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
+              </svg>
+            )}
+            {confirmText}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function BookingsPage() {
   const { data: session, isPending } = useSession();
@@ -31,6 +127,12 @@ export default function BookingsPage() {
     total: 0,
     totalPages: 0,
   });
+  const [cancelModal, setCancelModal] = useState<{
+    isOpen: boolean;
+    bookingId: string;
+    tutorName: string;
+  }>({ isOpen: false, bookingId: "", tutorName: "" });
+  const [isCancelling, setIsCancelling] = useState(false);
 
   useEffect(() => {
     if (!isPending && !session?.user) {
@@ -70,15 +172,23 @@ export default function BookingsPage() {
     }
   };
 
-  const handleCancelBooking = async (bookingId: string) => {
-    if (!confirm("Are you sure you want to cancel this booking?")) return;
+  const openCancelModal = (bookingId: string, tutorName: string) => {
+    setCancelModal({ isOpen: true, bookingId, tutorName });
+  };
+
+  const handleCancelBooking = async () => {
+    const { bookingId } = cancelModal;
+    setIsCancelling(true);
 
     try {
       await bookingApi.cancel(bookingId);
       toast.success("Booking cancelled successfully");
+      setCancelModal({ isOpen: false, bookingId: "", tutorName: "" });
       fetchBookings();
     } catch (error: any) {
       toast.error(error.message || "Failed to cancel booking");
+    } finally {
+      setIsCancelling(false);
     }
   };
 
@@ -250,7 +360,12 @@ export default function BookingsPage() {
                     {(booking.status === "PENDING" ||
                       booking.status === "CONFIRMED") && (
                       <button
-                        onClick={() => handleCancelBooking(booking.id)}
+                        onClick={() =>
+                          openCancelModal(
+                            booking.id,
+                            booking.tutorProfile?.user?.name || "Tutor",
+                          )
+                        }
                         className="text-red-600 hover:text-red-700 text-sm font-medium"
                       >
                         Cancel Booking
@@ -304,6 +419,19 @@ export default function BookingsPage() {
           </div>
         )}
       </div>
+
+      {/* Cancel Confirmation Modal */}
+      <ConfirmModal
+        isOpen={cancelModal.isOpen}
+        onClose={() =>
+          setCancelModal({ isOpen: false, bookingId: "", tutorName: "" })
+        }
+        onConfirm={handleCancelBooking}
+        title="Cancel Booking"
+        message={`Are you sure you want to cancel your session with ${cancelModal.tutorName}? This action cannot be undone.`}
+        confirmText="Cancel Booking"
+        isLoading={isCancelling}
+      />
     </div>
   );
 }

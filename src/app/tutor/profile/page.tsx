@@ -177,7 +177,7 @@ export default function TutorProfilePage() {
                     onChange={(e) =>
                       setFormData({ ...formData, bio: e.target.value })
                     }
-                    className="input-field w-full"
+                    className="input-field w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
                     rows={4}
                     placeholder="Tell students about yourself, your teaching style, and expertise..."
                   />
@@ -197,7 +197,7 @@ export default function TutorProfilePage() {
                         experience: Number(e.target.value),
                       })
                     }
-                    className="input-field w-full"
+                    className="input-field w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
                     min="0"
                     max="50"
                   />
@@ -217,7 +217,7 @@ export default function TutorProfilePage() {
                         hourlyRate: Number(e.target.value),
                       })
                     }
-                    className="input-field w-full"
+                    className="input-field w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
                     min="1"
                     step="0.01"
                     required

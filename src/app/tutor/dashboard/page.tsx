@@ -167,7 +167,7 @@ export default function TutorDashboard() {
           </div>
           {!dashboardData.profile && (
             <Link
-              href="/tutor/profile/setup"
+              href="/tutor/profile"
               className="btn-primary flex items-center gap-2"
             >
               <FiPlus /> Complete Your Profile
@@ -253,7 +253,7 @@ export default function TutorDashboard() {
                     Manage Bookings
                   </p>
                   <p className="text-sm text-secondary-600">
-                    View and manage session requests
+                    View and manage booking requests
                   </p>
                 </div>
               </Link>

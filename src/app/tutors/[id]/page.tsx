@@ -395,7 +395,7 @@ function BookingModal({
               value={date}
               onChange={(e) => setDate(e.target.value)}
               min={new Date().toISOString().split("T")[0]}
-              className="input-field w-full"
+              className="input-field w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
               required
             />
           </div>
@@ -408,7 +408,7 @@ function BookingModal({
               type="time"
               value={time}
               onChange={(e) => setTime(e.target.value)}
-              className="input-field w-full"
+              className="input-field w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
               required
             />
           </div>
@@ -420,7 +420,7 @@ function BookingModal({
             <select
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
-              className="input-field w-full"
+              className="input-field w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
             >
               <option value="30">30 minutes</option>
               <option value="60">1 hour</option>
@@ -436,7 +436,7 @@ function BookingModal({
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="input-field w-full"
+              className="input-field w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
               rows={3}
               placeholder="What would you like to learn?"
             />

@@ -100,6 +100,10 @@ export const adminApi = {
     api.get(`/admin/users/${id}`).then((res) => res.data),
   updateUserRole: (id: string, role: string) =>
     api.patch(`/admin/users/${id}/role`, { role }).then((res) => res.data),
+  updateUserStatus: (id: string, status: string) =>
+    api.patch(`/admin/users/${id}/status`, { status }).then((res) => res.data),
   getAllBookings: (params?: Record<string, any>) =>
     api.get("/admin/bookings", { params }).then((res) => res.data),
+  updateBookingStatus: (id: string, status: string) =>
+    api.patch(`/bookings/${id}/status`, { status }).then((res) => res.data),
 };

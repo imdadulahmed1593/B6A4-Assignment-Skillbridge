@@ -132,7 +132,7 @@ export default function CreateReviewPage() {
             {/* Tutor Info */}
             <div className="flex items-center gap-4 pb-6 border-b border-secondary-100 mb-6">
               <div className="w-16 h-16 rounded-full bg-primary-100 flex items-center justify-center">
-                {booking.tutor?.user?.image ? (
+                {booking.tutorProfile?.user?.image ? (
                   <img
                     src={booking.tutorProfile.user.image}
                     alt={booking.tutorProfile.user.name}
@@ -146,7 +146,7 @@ export default function CreateReviewPage() {
               </div>
               <div>
                 <p className="font-semibold text-secondary-900">
-                  Session with {booking.tutor?.user?.name}
+                  Session with {booking.tutorProfile?.user?.name}
                 </p>
                 <p className="text-secondary-600 text-sm">
                   {new Date(booking.scheduledAt).toLocaleDateString()} -{" "}
@@ -198,7 +198,7 @@ export default function CreateReviewPage() {
                 <textarea
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  className="input-field w-full"
+                  className="input-field w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
                   rows={5}
                   placeholder="Share your experience with this tutor..."
                 />

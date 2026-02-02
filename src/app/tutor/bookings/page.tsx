@@ -212,7 +212,7 @@ export default function TutorBookingsPage() {
           <div className="space-y-4">
             {bookings.map((booking) => (
               <div key={booking.id} className="card p-6">
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col sm:flex-row gap-4 items-center sm:items-start">
                   {/* Student Avatar */}
                   <div className="w-16 h-16 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0 mx-auto sm:mx-0">
                     {booking.student?.image ? (
@@ -255,10 +255,16 @@ export default function TutorBookingsPage() {
                       <span>{booking.duration} mins</span>
                     </div>
                     {booking.notes && (
-                      <p className="mt-2 text-secondary-600 text-sm bg-secondary-50 p-2 rounded">
+                      <p className="mt-2 text-secondary-600 text-sm pr-2 py-1">
                         <strong>Notes:</strong> {booking.notes}
                       </p>
                     )}
+                    {booking.status === "COMPLETED" &&
+                      booking?.review?.comment && (
+                        <div className="mt-1 text-sm text-secondary-600 pr-2 py-1">
+                          <strong>Review:</strong> "{booking.review.comment}"
+                        </div>
+                      )}
                   </div>
 
                   {/* Actions */}
