@@ -63,7 +63,6 @@ export default function Navbar() {
             {user?.role === "ADMIN" && (
               <Link
                 href={getDashboardLink()}
-                // onClick={() => setShowUserMenu(false)}
                 className=" text-secondary-600 hover:bg-secondary-50 hover:text-primary-600"
               >
                 Dashboard
