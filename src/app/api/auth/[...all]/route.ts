@@ -5,15 +5,9 @@ const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
 async function handler(req: NextRequest) {
   // Get the path after /api/auth/
   const pathname = req.nextUrl.pathname;
-
-  // Build the backend URL
   const backendUrl = new URL(pathname + req.nextUrl.search, BACKEND_URL);
 
-  // Log for debugging - check Vercel Function Logs
-  console.log("[Auth Proxy] BACKEND_URL env:", BACKEND_URL);
-  console.log("[Auth Proxy] Forwarding to:", backendUrl.toString());
-
-  // Forward the request to the backend
+  // Forwarding the request to the backend
   const headers = new Headers(req.headers);
 
   // Remove headers that shouldn't be forwarded
