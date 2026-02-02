@@ -54,7 +54,7 @@ export default function AdminDashboard() {
   const fetchStats = async () => {
     try {
       const response = await adminApi.getDashboardStats();
-      setStats(response.data);
+      setStats(response.data.stats);
     } catch (error) {
       console.error("Failed to fetch stats:", error);
     } finally {
@@ -135,7 +135,9 @@ export default function AdminDashboard() {
       <div className="container-custom py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-secondary-900">Admin Dashboard</h1>
+          <h1 className="text-3xl font-bold text-secondary-900">
+            Admin Dashboard
+          </h1>
           <p className="text-secondary-600 mt-1">
             Manage users, bookings, and categories
           </p>
@@ -145,10 +147,14 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {statCards.map((stat) => (
             <div key={stat.label} className="card p-6">
-              <div className={`w-12 h-12 rounded-lg ${stat.color} flex items-center justify-center mb-4`}>
+              <div
+                className={`w-12 h-12 rounded-lg ${stat.color} flex items-center justify-center mb-4`}
+              >
                 <stat.icon className="w-6 h-6" />
               </div>
-              <p className="text-2xl font-bold text-secondary-900">{stat.value}</p>
+              <p className="text-2xl font-bold text-secondary-900">
+                {stat.value}
+              </p>
               <p className="text-secondary-600 text-sm">{stat.label}</p>
             </div>
           ))}
@@ -156,38 +162,57 @@ export default function AdminDashboard() {
 
         {/* Quick Actions */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Link href="/admin/users" className="card p-6 hover:shadow-lg transition-shadow">
+          <Link
+            href="/admin/users"
+            className="card p-6 hover:shadow-lg transition-shadow"
+          >
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 rounded-lg bg-primary-100 flex items-center justify-center">
                 <FiUsers className="w-7 h-7 text-primary-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-secondary-900">Manage Users</h3>
-                <p className="text-secondary-600 text-sm">View and manage all users</p>
+                <h3 className="font-semibold text-secondary-900">
+                  Manage Users
+                </h3>
+                <p className="text-secondary-600 text-sm">
+                  View and manage all users
+                </p>
               </div>
             </div>
           </Link>
 
-          <Link href="/admin/bookings" className="card p-6 hover:shadow-lg transition-shadow">
+          <Link
+            href="/admin/bookings"
+            className="card p-6 hover:shadow-lg transition-shadow"
+          >
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 rounded-lg bg-blue-100 flex items-center justify-center">
                 <FiCalendar className="w-7 h-7 text-blue-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-secondary-900">All Bookings</h3>
-                <p className="text-secondary-600 text-sm">View all platform bookings</p>
+                <h3 className="font-semibold text-secondary-900">
+                  All Bookings
+                </h3>
+                <p className="text-secondary-600 text-sm">
+                  View all platform bookings
+                </p>
               </div>
             </div>
           </Link>
 
-          <Link href="/admin/categories" className="card p-6 hover:shadow-lg transition-shadow">
+          <Link
+            href="/admin/categories"
+            className="card p-6 hover:shadow-lg transition-shadow"
+          >
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 rounded-lg bg-green-100 flex items-center justify-center">
                 <FiGrid className="w-7 h-7 text-green-600" />
               </div>
               <div>
                 <h3 className="font-semibold text-secondary-900">Categories</h3>
-                <p className="text-secondary-600 text-sm">Manage subject categories</p>
+                <p className="text-secondary-600 text-sm">
+                  Manage subject categories
+                </p>
               </div>
             </div>
           </Link>

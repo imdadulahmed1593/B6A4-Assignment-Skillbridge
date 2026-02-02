@@ -30,7 +30,9 @@ interface DashboardData {
 export default function StudentDashboard() {
   const { data: session, isPending } = useSession();
   const router = useRouter();
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
+    null,
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -76,25 +78,25 @@ export default function StudentDashboard() {
   const stats = [
     {
       label: "Total Bookings",
-      value: dashboardData?.bookings.total || 0,
+      value: dashboardData?.bookings?.total || 0,
       icon: FiBook,
       color: "bg-primary-100 text-primary-600",
     },
     {
       label: "Pending",
-      value: dashboardData?.bookings.pending || 0,
+      value: dashboardData?.bookings?.pending || 0,
       icon: FiClock,
       color: "bg-yellow-100 text-yellow-600",
     },
     {
       label: "Confirmed",
-      value: dashboardData?.bookings.confirmed || 0,
+      value: dashboardData?.bookings?.confirmed || 0,
       icon: FiCalendar,
       color: "bg-blue-100 text-blue-600",
     },
     {
       label: "Completed",
-      value: dashboardData?.bookings.completed || 0,
+      value: dashboardData?.bookings?.completed || 0,
       icon: FiCheckCircle,
       color: "bg-green-100 text-green-600",
     },
@@ -117,10 +119,14 @@ export default function StudentDashboard() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {stats.map((stat) => (
             <div key={stat.label} className="card p-6">
-              <div className={`w-12 h-12 rounded-lg ${stat.color} flex items-center justify-center mb-4`}>
+              <div
+                className={`w-12 h-12 rounded-lg ${stat.color} flex items-center justify-center mb-4`}
+              >
                 <stat.icon className="w-6 h-6" />
               </div>
-              <p className="text-2xl font-bold text-secondary-900">{stat.value}</p>
+              <p className="text-2xl font-bold text-secondary-900">
+                {stat.value}
+              </p>
               <p className="text-secondary-600 text-sm">{stat.label}</p>
             </div>
           ))}
@@ -133,12 +139,15 @@ export default function StudentDashboard() {
               <h2 className="text-xl font-semibold text-secondary-900">
                 Upcoming Sessions
               </h2>
-              <Link href="/dashboard/bookings" className="text-primary-600 hover:underline text-sm">
+              <Link
+                href="/dashboard/bookings"
+                className="text-primary-600 hover:underline text-sm"
+              >
                 View all
               </Link>
             </div>
 
-            {!dashboardData?.bookings.upcoming?.length ? (
+            {!dashboardData?.bookings?.upcoming?.length ? (
               <div className="text-center py-8">
                 <FiCalendar className="w-12 h-12 text-secondary-300 mx-auto mb-4" />
                 <p className="text-secondary-600 mb-4">No upcoming sessions</p>
@@ -148,7 +157,7 @@ export default function StudentDashboard() {
               </div>
             ) : (
               <div className="space-y-4">
-                {dashboardData.bookings.upcoming.slice(0, 3).map((booking) => (
+                {dashboardData.bookings?.upcoming.slice(0, 3).map((booking) => (
                   <BookingCard key={booking.id} booking={booking} />
                 ))}
               </div>
@@ -161,19 +170,22 @@ export default function StudentDashboard() {
               <h2 className="text-xl font-semibold text-secondary-900">
                 Past Sessions
               </h2>
-              <Link href="/dashboard/bookings?tab=past" className="text-primary-600 hover:underline text-sm">
+              <Link
+                href="/dashboard/bookings?tab=past"
+                className="text-primary-600 hover:underline text-sm"
+              >
                 View all
               </Link>
             </div>
 
-            {!dashboardData?.bookings.past?.length ? (
+            {!dashboardData?.bookings?.past?.length ? (
               <div className="text-center py-8">
                 <FiCheckCircle className="w-12 h-12 text-secondary-300 mx-auto mb-4" />
                 <p className="text-secondary-600">No past sessions yet</p>
               </div>
             ) : (
               <div className="space-y-4">
-                {dashboardData.bookings.past.slice(0, 3).map((booking) => (
+                {dashboardData.bookings?.past.slice(0, 3).map((booking) => (
                   <BookingCard key={booking.id} booking={booking} showReview />
                 ))}
               </div>
@@ -196,7 +208,9 @@ export default function StudentDashboard() {
               </div>
               <div>
                 <p className="font-medium text-secondary-900">Browse Tutors</p>
-                <p className="text-sm text-secondary-600">Find your next tutor</p>
+                <p className="text-sm text-secondary-600">
+                  Find your next tutor
+                </p>
               </div>
             </Link>
             <Link
@@ -208,7 +222,9 @@ export default function StudentDashboard() {
               </div>
               <div>
                 <p className="font-medium text-secondary-900">My Bookings</p>
-                <p className="text-sm text-secondary-600">Manage your sessions</p>
+                <p className="text-sm text-secondary-600">
+                  Manage your sessions
+                </p>
               </div>
             </Link>
             <Link
@@ -230,7 +246,13 @@ export default function StudentDashboard() {
   );
 }
 
-function BookingCard({ booking, showReview }: { booking: Booking; showReview?: boolean }) {
+function BookingCard({
+  booking,
+  showReview,
+}: {
+  booking: Booking;
+  showReview?: boolean;
+}) {
   const statusColors: Record<string, string> = {
     PENDING: "bg-yellow-100 text-yellow-700",
     CONFIRMED: "bg-blue-100 text-blue-700",
@@ -241,31 +263,33 @@ function BookingCard({ booking, showReview }: { booking: Booking; showReview?: b
   return (
     <div className="flex items-start gap-4 p-4 bg-secondary-50 rounded-lg">
       <div className="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
-        {booking.tutor?.user?.image ? (
+        {booking?.tutor?.user?.image ? (
           <img
-            src={booking.tutor.user.image}
-            alt={booking.tutor.user.name}
+            src={booking?.tutor?.user?.image}
+            alt={booking?.tutor?.user?.name}
             className="w-full h-full object-cover rounded-full"
           />
         ) : (
           <span className="text-lg font-bold text-primary-600">
-            {booking.tutor?.user?.name?.charAt(0) || "T"}
+            {booking?.tutor?.user?.name?.charAt(0) || "T"}
           </span>
         )}
       </div>
       <div className="flex-1 min-w-0">
         <p className="font-medium text-secondary-900 truncate">
-          {booking.tutor?.user?.name}
+          {booking?.tutor?.user?.name}
         </p>
         <p className="text-sm text-secondary-600">
-          {new Date(booking.scheduledAt).toLocaleDateString()} at{" "}
-          {new Date(booking.scheduledAt).toLocaleTimeString([], {
+          {new Date(booking?.scheduledAt).toLocaleDateString()} at{" "}
+          {new Date(booking?.scheduledAt).toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
           })}
         </p>
         <div className="flex items-center gap-2 mt-2">
-          <span className={`px-2 py-0.5 text-xs rounded-full ${statusColors[booking.status]}`}>
+          <span
+            className={`px-2 py-0.5 text-xs rounded-full ${statusColors[booking.status]}`}
+          >
             {booking.status}
           </span>
           <span className="text-sm text-secondary-600">

@@ -4,7 +4,13 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { tutorApi, categoryApi } from "@/lib/api";
 import { TutorProfile, Category } from "@/types";
-import { FiSearch, FiFilter, FiStar, FiMapPin, FiDollarSign } from "react-icons/fi";
+import {
+  FiSearch,
+  FiFilter,
+  FiStar,
+  FiMapPin,
+  FiDollarSign,
+} from "react-icons/fi";
 
 export default function TutorsPage() {
   const [tutors, setTutors] = useState<TutorProfile[]>([]);
@@ -72,17 +78,17 @@ export default function TutorsPage() {
           <h1 className="text-3xl font-bold text-secondary-900 mb-4">
             Find Your Perfect Tutor
           </h1>
-          
+
           {/* Search Bar */}
           <form onSubmit={handleSearch} className="flex gap-4">
-            <div className="relative flex-1">
+            <div className="relative flex-1 flex items-center">
               <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-secondary-400" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by name or subject..."
-                className="input-field pl-12 w-full"
+                className="input-field pl-12 w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
               />
             </div>
             <button type="submit" className="btn-primary px-8">
@@ -102,7 +108,9 @@ export default function TutorsPage() {
       <div className="container-custom py-8">
         <div className="flex gap-8">
           {/* Filters Sidebar */}
-          <aside className={`w-64 flex-shrink-0 ${showFilters ? "block" : "hidden md:block"}`}>
+          <aside
+            className={`w-64 flex-shrink-0 ${showFilters ? "block" : "hidden md:block"}`}
+          >
             <div className="card p-6 sticky top-24">
               <h2 className="font-semibold text-lg mb-4">Filters</h2>
 
@@ -117,7 +125,7 @@ export default function TutorsPage() {
                     setSelectedCategory(e.target.value);
                     setPage(1);
                   }}
-                  className="input-field w-full"
+                  className="input-field w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
                 >
                   <option value="">All Categories</option>
                   {categories.map((cat) => (
@@ -139,7 +147,7 @@ export default function TutorsPage() {
                     setMinRating(e.target.value);
                     setPage(1);
                   }}
-                  className="input-field w-full"
+                  className="input-field w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
                 >
                   <option value="">Any Rating</option>
                   <option value="4">4+ Stars</option>
@@ -159,7 +167,7 @@ export default function TutorsPage() {
                     setSortBy(e.target.value);
                     setPage(1);
                   }}
-                  className="input-field w-full"
+                  className="input-field w-full focus:outline-none focus:ring-0 focus:border-secondary-200"
                 >
                   <option value="rating">Highest Rated</option>
                   <option value="price">Price</option>
@@ -196,7 +204,9 @@ export default function TutorsPage() {
               </div>
             ) : tutors.length === 0 ? (
               <div className="card p-12 text-center">
-                <p className="text-secondary-600 text-lg">No tutors found matching your criteria.</p>
+                <p className="text-secondary-600 text-lg">
+                  No tutors found matching your criteria.
+                </p>
                 <button
                   onClick={() => {
                     setSelectedCategory("");

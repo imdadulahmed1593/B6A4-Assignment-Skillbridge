@@ -102,12 +102,19 @@ export default function ProfilePage() {
         <div className="max-w-2xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <Link href="/dashboard" className="text-secondary-600 hover:text-primary-600">
+            <Link
+              href="/dashboard"
+              className="text-secondary-600 hover:text-primary-600"
+            >
               <FiChevronLeft className="w-6 h-6" />
             </Link>
             <div>
-              <h1 className="text-2xl font-bold text-secondary-900">My Profile</h1>
-              <p className="text-secondary-600">Manage your account information</p>
+              <h1 className="text-2xl font-bold text-secondary-900">
+                My Profile
+              </h1>
+              <p className="text-secondary-600">
+                Manage your account information
+              </p>
             </div>
           </div>
 
@@ -129,7 +136,9 @@ export default function ProfilePage() {
                     )}
                   </div>
                   <div className="text-center sm:text-left">
-                    <h2 className="text-xl font-semibold text-secondary-900">{profile.name}</h2>
+                    <h2 className="text-xl font-semibold text-secondary-900">
+                      {profile.name}
+                    </h2>
                     <p className="text-secondary-600">{profile.email}</p>
                     <span className="inline-block mt-2 px-3 py-1 bg-primary-100 text-primary-700 text-sm rounded-full">
                       {profile.role}
@@ -143,14 +152,20 @@ export default function ProfilePage() {
                     <FiUser className="text-secondary-400 w-5 h-5" />
                     <div>
                       <p className="text-sm text-secondary-500">Full Name</p>
-                      <p className="font-medium text-secondary-900">{profile.name}</p>
+                      <p className="font-medium text-secondary-900">
+                        {profile.name}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <FiMail className="text-secondary-400 w-5 h-5" />
                     <div>
-                      <p className="text-sm text-secondary-500">Email Address</p>
-                      <p className="font-medium text-secondary-900">{profile.email}</p>
+                      <p className="text-sm text-secondary-500">
+                        Email Address
+                      </p>
+                      <p className="font-medium text-secondary-900">
+                        {profile.email}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -174,7 +189,8 @@ export default function ProfilePage() {
                 {/* Member Since */}
                 <div className="pt-4 border-t border-secondary-100">
                   <p className="text-sm text-secondary-500">
-                    Member since {new Date(profile.createdAt).toLocaleDateString()}
+                    Member since{" "}
+                    {new Date(profile.createdAt).toLocaleDateString()}
                   </p>
                 </div>
 
@@ -211,7 +227,9 @@ export default function ProfilePage() {
                       <input
                         type="url"
                         value={formData.image}
-                        onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, image: e.target.value })
+                        }
                         className="input-field w-full"
                         placeholder="https://example.com/avatar.jpg"
                       />
@@ -226,7 +244,9 @@ export default function ProfilePage() {
                     <input
                       type="text"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
                       className="input-field w-full"
                       required
                     />

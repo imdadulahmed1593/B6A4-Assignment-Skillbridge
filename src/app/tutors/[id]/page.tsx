@@ -18,7 +18,15 @@ import {
 } from "react-icons/fi";
 import Link from "next/link";
 
-const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const DAYS = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 export default function TutorDetailPage() {
   const params = useParams();
@@ -50,7 +58,9 @@ export default function TutorDetailPage() {
 
   const fetchReviews = async () => {
     try {
-      const response = await reviewApi.getTutorReviews(params.id as string, { limit: 10 });
+      const response = await reviewApi.getTutorReviews(params.id as string, {
+        limit: 10,
+      });
       setReviews(response.data || []);
     } catch (error) {
       console.error("Failed to fetch reviews:", error);
@@ -84,7 +94,9 @@ export default function TutorDetailPage() {
   if (!tutor) {
     return (
       <div className="container-custom py-12 text-center">
-        <h1 className="text-2xl font-bold text-secondary-900 mb-4">Tutor Not Found</h1>
+        <h1 className="text-2xl font-bold text-secondary-900 mb-4">
+          Tutor Not Found
+        </h1>
         <Link href="/tutors" className="text-primary-600 hover:underline">
           Browse all tutors
         </Link>
@@ -155,8 +167,12 @@ export default function TutorDetailPage() {
                   <div className="flex items-center gap-6 mt-4 text-secondary-600 justify-center sm:justify-start">
                     <div className="flex items-center gap-1">
                       <FiStar className="text-yellow-500 fill-yellow-500" />
-                      <span className="font-semibold">{tutor.rating.toFixed(1)}</span>
-                      <span className="text-sm">({tutor.totalReviews} reviews)</span>
+                      <span className="font-semibold">
+                        {tutor.rating.toFixed(1)}
+                      </span>
+                      <span className="text-sm">
+                        ({tutor.totalReviews} reviews)
+                      </span>
                     </div>
                     <div className="flex items-center gap-1">
                       <FiClock />
@@ -185,7 +201,9 @@ export default function TutorDetailPage() {
                       className="flex items-center gap-3 p-3 bg-secondary-50 rounded-lg"
                     >
                       <FiCalendar className="text-primary-600" />
-                      <span className="font-medium">{DAYS[slot.dayOfWeek]}</span>
+                      <span className="font-medium">
+                        {DAYS[slot.dayOfWeek]}
+                      </span>
                       <span className="text-secondary-600">
                         {slot.startTime} - {slot.endTime}
                       </span>
@@ -200,13 +218,16 @@ export default function TutorDetailPage() {
               <h2 className="text-xl font-semibold text-secondary-900 mb-4">
                 Reviews ({tutor.totalReviews})
               </h2>
-              
+
               {reviews.length === 0 ? (
                 <p className="text-secondary-600">No reviews yet.</p>
               ) : (
                 <div className="space-y-4">
                   {reviews.map((review) => (
-                    <div key={review.id} className="border-b border-secondary-100 pb-4 last:border-0">
+                    <div
+                      key={review.id}
+                      className="border-b border-secondary-100 pb-4 last:border-0"
+                    >
                       <div className="flex items-start gap-4">
                         <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
                           {review.student?.image ? (
@@ -221,7 +242,9 @@ export default function TutorDetailPage() {
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="font-medium">{review.student?.name}</span>
+                            <span className="font-medium">
+                              {review.student?.name}
+                            </span>
                             <div className="flex items-center gap-1">
                               {[...Array(5)].map((_, i) => (
                                 <FiStar
@@ -236,7 +259,9 @@ export default function TutorDetailPage() {
                             </div>
                           </div>
                           {review.comment && (
-                            <p className="text-secondary-600">{review.comment}</p>
+                            <p className="text-secondary-600">
+                              {review.comment}
+                            </p>
                           )}
                           <span className="text-secondary-400 text-sm">
                             {new Date(review.createdAt).toLocaleDateString()}
@@ -256,7 +281,9 @@ export default function TutorDetailPage() {
               <div className="text-center mb-6">
                 <div className="text-3xl font-bold text-primary-600">
                   ${tutor.hourlyRate}
-                  <span className="text-lg font-normal text-secondary-600">/hour</span>
+                  <span className="text-lg font-normal text-secondary-600">
+                    /hour
+                  </span>
                 </div>
               </div>
 
@@ -269,7 +296,10 @@ export default function TutorDetailPage() {
                   {tutor.isAvailable ? "Book a Session" : "Not Available"}
                 </button>
               ) : (
-                <Link href="/login" className="btn-primary w-full py-3 block text-center">
+                <Link
+                  href="/login"
+                  className="btn-primary w-full py-3 block text-center"
+                >
                   Login to Book
                 </Link>
               )}
@@ -282,7 +312,9 @@ export default function TutorDetailPage() {
                 {tutor.experience > 0 && (
                   <div className="flex items-center gap-3">
                     <FiClock className="text-primary-600" />
-                    <span className="text-sm">{tutor.experience} years of experience</span>
+                    <span className="text-sm">
+                      {tutor.experience} years of experience
+                    </span>
                   </div>
                 )}
               </div>
@@ -417,7 +449,9 @@ function BookingModal({
             </div>
             <div className="flex justify-between font-semibold text-secondary-900 mt-2">
               <span>Total:</span>
-              <span>${(tutor.hourlyRate * (Number(duration) / 60)).toFixed(2)}</span>
+              <span>
+                ${(tutor.hourlyRate * (Number(duration) / 60)).toFixed(2)}
+              </span>
             </div>
           </div>
 

@@ -6,12 +6,17 @@ export const authClient = createAuthClient({
   baseURL: API_URL,
 });
 
-export const { signIn, signUp, signOut, useSession: useSessionOriginal } = authClient;
+export const {
+  signIn,
+  signUp,
+  signOut,
+  useSession: useSessionOriginal,
+} = authClient;
 
 // Extended session hook with role support
 export function useSession() {
   const session = useSessionOriginal();
-  
+
   // Type assertion to include role in user object
   return session as {
     data: {
@@ -21,7 +26,7 @@ export function useSession() {
         email: string;
         image?: string | null;
         emailVerified: boolean;
-        role: "USER" | "TUTOR" | "ADMIN";
+        role: "STUDENT" | "TUTOR" | "ADMIN";
         createdAt: Date;
         updatedAt: Date;
       };

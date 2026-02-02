@@ -118,12 +118,19 @@ export default function AdminUsersPage() {
       <div className="container-custom py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Link href="/admin" className="text-secondary-600 hover:text-primary-600">
+          <Link
+            href="/admin"
+            className="text-secondary-600 hover:text-primary-600"
+          >
             <FiChevronLeft className="w-6 h-6" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-secondary-900">Manage Users</h1>
-            <p className="text-secondary-600">View and manage all platform users</p>
+            <h1 className="text-2xl font-bold text-secondary-900">
+              Manage Users
+            </h1>
+            <p className="text-secondary-600">
+              View and manage all platform users
+            </p>
           </div>
         </div>
 
@@ -138,7 +145,7 @@ export default function AdminUsersPage() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search users by name or email..."
-                  className="input-field w-full pl-10"
+                  className="input-field w-full pl-10 focus:outline-none focus:ring-0 focus:border-secondary-200"
                 />
               </div>
             </form>
@@ -148,10 +155,10 @@ export default function AdminUsersPage() {
                 setRoleFilter(e.target.value);
                 setPagination((prev) => ({ ...prev, page: 1 }));
               }}
-              className="input-field w-full sm:w-auto"
+              className="input-field  w-full sm:w-auto focus:outline-none focus:ring-0 focus:border-secondary-200"
             >
               <option value="">All Roles</option>
-              <option value="USER">Students</option>
+              <option value="STUDENT">Students</option>
               <option value="TUTOR">Tutors</option>
               <option value="ADMIN">Admins</option>
             </select>
@@ -164,15 +171,22 @@ export default function AdminUsersPage() {
             <div className="p-6">
               <div className="space-y-4">
                 {[...Array(5)].map((_, i) => (
-                  <div key={i} className="h-16 bg-secondary-100 rounded animate-pulse" />
+                  <div
+                    key={i}
+                    className="h-16 bg-secondary-100 rounded animate-pulse"
+                  />
                 ))}
               </div>
             </div>
           ) : users.length === 0 ? (
             <div className="p-12 text-center">
               <FiUser className="w-16 h-16 text-secondary-300 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-secondary-900 mb-2">No users found</h3>
-              <p className="text-secondary-600">Try adjusting your search or filters</p>
+              <h3 className="text-lg font-semibold text-secondary-900 mb-2">
+                No users found
+              </h3>
+              <p className="text-secondary-600">
+                Try adjusting your search or filters
+              </p>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -194,9 +208,9 @@ export default function AdminUsersPage() {
                     <th className="px-6 py-4 text-left text-sm font-medium text-secondary-600">
                       Joined
                     </th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-secondary-600">
+                    {/* <th className="px-6 py-4 text-left text-sm font-medium text-secondary-600">
                       Actions
-                    </th>
+                    </th> */}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-secondary-100">
@@ -217,12 +231,18 @@ export default function AdminUsersPage() {
                               </span>
                             )}
                           </div>
-                          <span className="font-medium text-secondary-900">{user.name}</span>
+                          <span className="font-medium text-secondary-900">
+                            {user.name}
+                          </span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-secondary-600">{user.email}</td>
+                      <td className="px-6 py-4 text-secondary-600">
+                        {user.email}
+                      </td>
                       <td className="px-6 py-4">
-                        <span className={`px-2 py-1 text-xs rounded-full ${roleColors[user.role]}`}>
+                        <span
+                          className={`px-2 py-1 text-xs rounded-full ${roleColors[user.role]}`}
+                        >
                           {user.role}
                         </span>
                       </td>
@@ -236,18 +256,20 @@ export default function AdminUsersPage() {
                       <td className="px-6 py-4 text-secondary-600">
                         {new Date(user.createdAt).toLocaleDateString()}
                       </td>
-                      <td className="px-6 py-4">
+                      {/* <td className="px-6 py-4">
                         <select
                           value={user.role}
-                          onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                          className="input-field py-1 text-sm"
+                          onChange={(e) =>
+                            handleRoleChange(user.id, e.target.value)
+                          }
+                          className="input-field py-1 text-sm focus:outline-none focus:ring-0 focus:border-secondary-200"
                           disabled={user.id === session.user.id}
                         >
-                          <option value="USER">Student</option>
+                          <option value="STUDENT">Student</option>
                           <option value="TUTOR">Tutor</option>
                           <option value="ADMIN">Admin</option>
                         </select>
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>
@@ -261,12 +283,14 @@ export default function AdminUsersPage() {
           <div className="flex items-center justify-between mt-6">
             <p className="text-secondary-600 text-sm">
               Showing {(pagination.page - 1) * pagination.limit + 1} to{" "}
-              {Math.min(pagination.page * pagination.limit, pagination.total)} of{" "}
-              {pagination.total} users
+              {Math.min(pagination.page * pagination.limit, pagination.total)}{" "}
+              of {pagination.total} users
             </p>
             <div className="flex items-center gap-2">
               <button
-                onClick={() => setPagination((prev) => ({ ...prev, page: prev.page - 1 }))}
+                onClick={() =>
+                  setPagination((prev) => ({ ...prev, page: prev.page - 1 }))
+                }
                 disabled={pagination.page === 1}
                 className="btn bg-white border border-secondary-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -276,7 +300,9 @@ export default function AdminUsersPage() {
                 Page {pagination.page} of {pagination.totalPages}
               </span>
               <button
-                onClick={() => setPagination((prev) => ({ ...prev, page: prev.page + 1 }))}
+                onClick={() =>
+                  setPagination((prev) => ({ ...prev, page: prev.page + 1 }))
+                }
                 disabled={pagination.page === pagination.totalPages}
                 className="btn bg-white border border-secondary-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >

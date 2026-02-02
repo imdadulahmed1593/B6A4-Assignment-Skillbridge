@@ -82,7 +82,8 @@ export default function TutorAvailabilityPage() {
   };
 
   const handleDeleteSlot = async (slotId: string) => {
-    if (!confirm("Are you sure you want to remove this availability slot?")) return;
+    if (!confirm("Are you sure you want to remove this availability slot?"))
+      return;
 
     try {
       await tutorApi.deleteAvailability(slotId);
@@ -124,12 +125,19 @@ export default function TutorAvailabilityPage() {
         <div className="max-w-2xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <Link href="/tutor/dashboard" className="text-secondary-600 hover:text-primary-600">
+            <Link
+              href="/tutor/dashboard"
+              className="text-secondary-600 hover:text-primary-600"
+            >
               <FiChevronLeft className="w-6 h-6" />
             </Link>
             <div className="flex-1">
-              <h1 className="text-2xl font-bold text-secondary-900">Availability</h1>
-              <p className="text-secondary-600">Set your available hours for tutoring</p>
+              <h1 className="text-2xl font-bold text-secondary-900">
+                Availability
+              </h1>
+              <p className="text-secondary-600">
+                Set your available hours for tutoring
+              </p>
             </div>
             <button
               onClick={() => setShowAddForm(true)}
@@ -142,7 +150,9 @@ export default function TutorAvailabilityPage() {
           {/* Add Form */}
           {showAddForm && (
             <div className="card p-6 mb-6">
-              <h3 className="font-semibold text-secondary-900 mb-4">Add Availability Slot</h3>
+              <h3 className="font-semibold text-secondary-900 mb-4">
+                Add Availability Slot
+              </h3>
               <form onSubmit={handleAddSlot} className="space-y-4">
                 <div className="grid grid-cols-3 gap-4">
                   <div>
@@ -151,7 +161,12 @@ export default function TutorAvailabilityPage() {
                     </label>
                     <select
                       value={newSlot.dayOfWeek}
-                      onChange={(e) => setNewSlot({ ...newSlot, dayOfWeek: Number(e.target.value) })}
+                      onChange={(e) =>
+                        setNewSlot({
+                          ...newSlot,
+                          dayOfWeek: Number(e.target.value),
+                        })
+                      }
                       className="input-field w-full"
                     >
                       {DAYS.map((day) => (
@@ -168,7 +183,9 @@ export default function TutorAvailabilityPage() {
                     <input
                       type="time"
                       value={newSlot.startTime}
-                      onChange={(e) => setNewSlot({ ...newSlot, startTime: e.target.value })}
+                      onChange={(e) =>
+                        setNewSlot({ ...newSlot, startTime: e.target.value })
+                      }
                       className="input-field w-full"
                       required
                     />
@@ -180,7 +197,9 @@ export default function TutorAvailabilityPage() {
                     <input
                       type="time"
                       value={newSlot.endTime}
-                      onChange={(e) => setNewSlot({ ...newSlot, endTime: e.target.value })}
+                      onChange={(e) =>
+                        setNewSlot({ ...newSlot, endTime: e.target.value })
+                      }
                       className="input-field w-full"
                       required
                     />
@@ -215,7 +234,8 @@ export default function TutorAvailabilityPage() {
                   No availability set
                 </h3>
                 <p className="text-secondary-600 mb-6">
-                  Add your available hours so students can book sessions with you.
+                  Add your available hours so students can book sessions with
+                  you.
                 </p>
                 <button
                   onClick={() => setShowAddForm(true)}

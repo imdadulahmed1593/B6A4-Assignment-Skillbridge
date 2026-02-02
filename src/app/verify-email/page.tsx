@@ -3,29 +3,37 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { api } from "@/lib/api";
 import { FiCheckCircle, FiXCircle, FiLoader } from "react-icons/fi";
 
 export default function VerifyEmailPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const token = searchParams.get("token");
-  
-  const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
+  const error = searchParams.get("error");
+
+  const [status, setStatus] = useState<"loading" | "success" | "error">(
+    "loading",
+  );
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    if (!token) {
+    // Better Auth redirects here after verification
+    // If there's an error param, verification failed
+    if (error) {
       setStatus("error");
-      setMessage("Invalid verification link");
+      if (error === "invalid_token") {
+        setMessage(
+          "Invalid or expired verification link. Please request a new one.",
+        );
+      } else {
+        setMessage("Verification failed. Please try again.");
+      }
       return;
     }
 
-    // The verification is handled by better-auth automatically
-    // Just show success message
+    // No error means verification was successful
     setStatus("success");
     setMessage("Email verified successfully! You can now log in.");
-  }, [token]);
+  }, [error]);
 
   return (
     <div className="min-h-[calc(100vh-200px)] flex items-center justify-center py-12 px-4">
@@ -48,7 +56,10 @@ export default function VerifyEmailPage() {
                 Email Verified!
               </h1>
               <p className="text-secondary-600 mb-6">{message}</p>
-              <Link href="/login" className="btn-primary inline-block px-8 py-3">
+              <Link
+                href="/login"
+                className="btn-primary inline-block px-8 py-3"
+              >
                 Go to Login
               </Link>
             </>
@@ -61,7 +72,10 @@ export default function VerifyEmailPage() {
                 Verification Failed
               </h1>
               <p className="text-secondary-600 mb-6">{message}</p>
-              <Link href="/login" className="btn-primary inline-block px-8 py-3">
+              <Link
+                href="/login"
+                className="btn-primary inline-block px-8 py-3"
+              >
                 Go to Login
               </Link>
             </>

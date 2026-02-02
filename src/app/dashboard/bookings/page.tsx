@@ -22,7 +22,9 @@ export default function BookingsPage() {
   const searchParams = useSearchParams();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "upcoming");
+  const [activeTab, setActiveTab] = useState(
+    searchParams.get("tab") || "upcoming",
+  );
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,
@@ -45,7 +47,8 @@ export default function BookingsPage() {
   const fetchBookings = async () => {
     setIsLoading(true);
     try {
-      const status = activeTab === "upcoming" ? "PENDING,CONFIRMED" : "COMPLETED,CANCELLED";
+      const status =
+        activeTab === "upcoming" ? "PENDING,CONFIRMED" : "COMPLETED,CANCELLED";
       const response = await bookingApi.getMyBookings({
         status,
         page: pagination.page,
@@ -108,11 +111,16 @@ export default function BookingsPage() {
       <div className="container-custom py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Link href="/dashboard" className="text-secondary-600 hover:text-primary-600">
+          <Link
+            href="/dashboard"
+            className="text-secondary-600 hover:text-primary-600"
+          >
             <FiChevronLeft className="w-6 h-6" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-secondary-900">My Bookings</h1>
+            <h1 className="text-2xl font-bold text-secondary-900">
+              My Bookings
+            </h1>
             <p className="text-secondary-600">Manage your tutoring sessions</p>
           </div>
         </div>
@@ -207,19 +215,26 @@ export default function BookingsPage() {
                     <div className="flex flex-wrap items-center gap-4 mt-2 text-secondary-600 justify-center sm:justify-start">
                       <div className="flex items-center gap-1">
                         <FiCalendar />
-                        <span>{new Date(booking.scheduledAt).toLocaleDateString()}</span>
+                        <span>
+                          {new Date(booking.scheduledAt).toLocaleDateString()}
+                        </span>
                       </div>
                       <div className="flex items-center gap-1">
                         <FiClock />
                         <span>
-                          {new Date(booking.scheduledAt).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
+                          {new Date(booking.scheduledAt).toLocaleTimeString(
+                            [],
+                            {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            },
+                          )}
                         </span>
                       </div>
                       <span>{booking.duration} mins</span>
-                      <span className={`px-2 py-0.5 text-xs rounded-full ${statusColors[booking.status]}`}>
+                      <span
+                        className={`px-2 py-0.5 text-xs rounded-full ${statusColors[booking.status]}`}
+                      >
                         {booking.status}
                       </span>
                     </div>
@@ -232,7 +247,8 @@ export default function BookingsPage() {
 
                   {/* Actions */}
                   <div className="flex flex-col gap-2 sm:items-end justify-center">
-                    {(booking.status === "PENDING" || booking.status === "CONFIRMED") && (
+                    {(booking.status === "PENDING" ||
+                      booking.status === "CONFIRMED") && (
                       <button
                         onClick={() => handleCancelBooking(booking.id)}
                         className="text-red-600 hover:text-red-700 text-sm font-medium"
@@ -265,7 +281,9 @@ export default function BookingsPage() {
         {pagination.totalPages > 1 && (
           <div className="flex items-center justify-center gap-4 mt-8">
             <button
-              onClick={() => setPagination((prev) => ({ ...prev, page: prev.page - 1 }))}
+              onClick={() =>
+                setPagination((prev) => ({ ...prev, page: prev.page - 1 }))
+              }
               disabled={pagination.page === 1}
               className="btn bg-white border border-secondary-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
@@ -275,7 +293,9 @@ export default function BookingsPage() {
               Page {pagination.page} of {pagination.totalPages}
             </span>
             <button
-              onClick={() => setPagination((prev) => ({ ...prev, page: prev.page + 1 }))}
+              onClick={() =>
+                setPagination((prev) => ({ ...prev, page: prev.page + 1 }))
+              }
               disabled={pagination.page === pagination.totalPages}
               className="btn bg-white border border-secondary-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >

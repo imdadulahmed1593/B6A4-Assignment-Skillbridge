@@ -94,7 +94,11 @@ export default function AdminCategoriesPage() {
   };
 
   const handleDelete = async (categoryId: string) => {
-    if (!confirm("Are you sure you want to delete this category? This cannot be undone.")) {
+    if (
+      !confirm(
+        "Are you sure you want to delete this category? This cannot be undone.",
+      )
+    ) {
       return;
     }
 
@@ -138,11 +142,16 @@ export default function AdminCategoriesPage() {
         <div className="max-w-3xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <Link href="/admin" className="text-secondary-600 hover:text-primary-600">
+            <Link
+              href="/admin"
+              className="text-secondary-600 hover:text-primary-600"
+            >
               <FiChevronLeft className="w-6 h-6" />
             </Link>
             <div className="flex-1">
-              <h1 className="text-2xl font-bold text-secondary-900">Categories</h1>
+              <h1 className="text-2xl font-bold text-secondary-900">
+                Categories
+              </h1>
               <p className="text-secondary-600">Manage subject categories</p>
             </div>
             {!showForm && (
@@ -177,7 +186,9 @@ export default function AdminCategoriesPage() {
                   <input
                     type="text"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     className="input-field w-full"
                     placeholder="e.g., Mathematics, Programming, Music"
                     required
@@ -189,7 +200,9 @@ export default function AdminCategoriesPage() {
                   </label>
                   <textarea
                     value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, description: e.target.value })
+                    }
                     className="input-field w-full"
                     rows={3}
                     placeholder="Brief description of this category..."
@@ -208,7 +221,11 @@ export default function AdminCategoriesPage() {
                     disabled={isSaving}
                     className="btn-primary disabled:opacity-50"
                   >
-                    {isSaving ? "Saving..." : editingCategory ? "Update Category" : "Add Category"}
+                    {isSaving
+                      ? "Saving..."
+                      : editingCategory
+                        ? "Update Category"
+                        : "Add Category"}
                   </button>
                 </div>
               </form>
@@ -245,9 +262,13 @@ export default function AdminCategoriesPage() {
                         <FiGrid className="w-5 h-5 text-primary-600" />
                       </div>
                       <div>
-                        <h3 className="font-medium text-secondary-900">{category.name}</h3>
+                        <h3 className="font-medium text-secondary-900">
+                          {category.name}
+                        </h3>
                         {category.description && (
-                          <p className="text-sm text-secondary-600">{category.description}</p>
+                          <p className="text-sm text-secondary-600">
+                            {category.description}
+                          </p>
                         )}
                       </div>
                     </div>
@@ -275,9 +296,13 @@ export default function AdminCategoriesPage() {
           <div className="mt-6 p-4 bg-blue-50 rounded-lg">
             <h4 className="font-medium text-blue-900 mb-2">About Categories</h4>
             <ul className="text-sm text-blue-800 space-y-1">
-              <li>• Categories help students find tutors in specific subjects</li>
+              <li>
+                • Categories help students find tutors in specific subjects
+              </li>
               <li>• Tutors can select multiple categories for their profile</li>
-              <li>• Deleting a category will remove it from all tutor profiles</li>
+              <li>
+                • Deleting a category will remove it from all tutor profiles
+              </li>
             </ul>
           </div>
         </div>

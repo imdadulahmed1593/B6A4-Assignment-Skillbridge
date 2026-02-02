@@ -56,7 +56,7 @@ export default function TutorProfilePage() {
         tutorApi.getMyProfile().catch(() => ({ data: null })),
         categoryApi.getAll(),
       ]);
-      
+
       setProfile(profileResponse.data);
       setCategories(categoriesResponse.data || []);
 
@@ -66,7 +66,9 @@ export default function TutorProfilePage() {
           experience: profileResponse.data.experience || 0,
           hourlyRate: profileResponse.data.hourlyRate || 0,
           isAvailable: profileResponse.data.isAvailable ?? true,
-          categoryIds: profileResponse.data.categories?.map((c: any) => c.categoryId) || [],
+          categoryIds:
+            profileResponse.data.categories?.map((c: any) => c.categoryId) ||
+            [],
         });
       }
     } catch (error) {
@@ -136,13 +138,20 @@ export default function TutorProfilePage() {
         <div className="max-w-2xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <Link href="/tutor/dashboard" className="text-secondary-600 hover:text-primary-600">
+            <Link
+              href="/tutor/dashboard"
+              className="text-secondary-600 hover:text-primary-600"
+            >
               <FiChevronLeft className="w-6 h-6" />
             </Link>
             <div className="flex-1">
-              <h1 className="text-2xl font-bold text-secondary-900">Tutor Profile</h1>
+              <h1 className="text-2xl font-bold text-secondary-900">
+                Tutor Profile
+              </h1>
               <p className="text-secondary-600">
-                {profile ? "Manage your tutor profile" : "Set up your tutor profile"}
+                {profile
+                  ? "Manage your tutor profile"
+                  : "Set up your tutor profile"}
               </p>
             </div>
             {profile && !isEditing && (
@@ -165,7 +174,9 @@ export default function TutorProfilePage() {
                   </label>
                   <textarea
                     value={formData.bio}
-                    onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, bio: e.target.value })
+                    }
                     className="input-field w-full"
                     rows={4}
                     placeholder="Tell students about yourself, your teaching style, and expertise..."
@@ -180,7 +191,12 @@ export default function TutorProfilePage() {
                   <input
                     type="number"
                     value={formData.experience}
-                    onChange={(e) => setFormData({ ...formData, experience: Number(e.target.value) })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        experience: Number(e.target.value),
+                      })
+                    }
                     className="input-field w-full"
                     min="0"
                     max="50"
@@ -195,7 +211,12 @@ export default function TutorProfilePage() {
                   <input
                     type="number"
                     value={formData.hourlyRate}
-                    onChange={(e) => setFormData({ ...formData, hourlyRate: Number(e.target.value) })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        hourlyRate: Number(e.target.value),
+                      })
+                    }
                     className="input-field w-full"
                     min="1"
                     step="0.01"
@@ -234,7 +255,9 @@ export default function TutorProfilePage() {
                 {/* Availability Toggle */}
                 <div className="flex items-center justify-between p-4 bg-secondary-50 rounded-lg">
                   <div>
-                    <p className="font-medium text-secondary-900">Available for Bookings</p>
+                    <p className="font-medium text-secondary-900">
+                      Available for Bookings
+                    </p>
                     <p className="text-sm text-secondary-600">
                       Students can book sessions when enabled
                     </p>
@@ -243,7 +266,12 @@ export default function TutorProfilePage() {
                     <input
                       type="checkbox"
                       checked={formData.isAvailable}
-                      onChange={(e) => setFormData({ ...formData, isAvailable: e.target.checked })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          isAvailable: e.target.checked,
+                        })
+                      }
                       className="sr-only peer"
                     />
                     <div className="w-11 h-6 bg-secondary-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-secondary-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
@@ -263,7 +291,9 @@ export default function TutorProfilePage() {
                           experience: profile.experience || 0,
                           hourlyRate: profile.hourlyRate || 0,
                           isAvailable: profile.isAvailable ?? true,
-                          categoryIds: profile.categories?.map((c: any) => c.categoryId) || [],
+                          categoryIds:
+                            profile.categories?.map((c: any) => c.categoryId) ||
+                            [],
                         });
                       }}
                       className="btn bg-secondary-100 text-secondary-700 hover:bg-secondary-200 flex-1"
@@ -276,7 +306,11 @@ export default function TutorProfilePage() {
                     disabled={isSaving}
                     className="btn-primary flex-1 disabled:opacity-50"
                   >
-                    {isSaving ? "Saving..." : profile ? "Save Changes" : "Create Profile"}
+                    {isSaving
+                      ? "Saving..."
+                      : profile
+                        ? "Save Changes"
+                        : "Create Profile"}
                   </button>
                 </div>
               </form>
@@ -316,25 +350,35 @@ export default function TutorProfilePage() {
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="text-center p-4 bg-secondary-50 rounded-lg">
                     <FiDollarSign className="w-6 h-6 text-primary-600 mx-auto mb-2" />
-                    <p className="text-2xl font-bold text-secondary-900">${profile.hourlyRate}</p>
+                    <p className="text-2xl font-bold text-secondary-900">
+                      ${profile.hourlyRate}
+                    </p>
                     <p className="text-sm text-secondary-600">Per Hour</p>
                   </div>
                   <div className="text-center p-4 bg-secondary-50 rounded-lg">
                     <FiClock className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-                    <p className="text-2xl font-bold text-secondary-900">{profile.experience}</p>
+                    <p className="text-2xl font-bold text-secondary-900">
+                      {profile.experience}
+                    </p>
                     <p className="text-sm text-secondary-600">Years Exp.</p>
                   </div>
                   <div className="text-center p-4 bg-secondary-50 rounded-lg">
                     <FiStar className="w-6 h-6 text-yellow-500 mx-auto mb-2" />
-                    <p className="text-2xl font-bold text-secondary-900">{profile.rating.toFixed(1)}</p>
-                    <p className="text-sm text-secondary-600">{profile.totalReviews} Reviews</p>
+                    <p className="text-2xl font-bold text-secondary-900">
+                      {profile.rating.toFixed(1)}
+                    </p>
+                    <p className="text-sm text-secondary-600">
+                      {profile.totalReviews} Reviews
+                    </p>
                   </div>
                 </div>
 
                 {/* Bio */}
                 {profile.bio && (
                   <div className="mb-6">
-                    <h3 className="font-medium text-secondary-900 mb-2">About</h3>
+                    <h3 className="font-medium text-secondary-900 mb-2">
+                      About
+                    </h3>
                     <p className="text-secondary-600">{profile.bio}</p>
                   </div>
                 )}
@@ -342,7 +386,9 @@ export default function TutorProfilePage() {
                 {/* Categories */}
                 {profile.categories && profile.categories.length > 0 && (
                   <div>
-                    <h3 className="font-medium text-secondary-900 mb-2">Subjects</h3>
+                    <h3 className="font-medium text-secondary-900 mb-2">
+                      Subjects
+                    </h3>
                     <div className="flex flex-wrap gap-2">
                       {profile.categories.map((c: any) => (
                         <span

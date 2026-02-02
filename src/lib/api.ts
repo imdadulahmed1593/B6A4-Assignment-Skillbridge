@@ -16,7 +16,7 @@ api.interceptors.response.use(
   (error) => {
     const message = error.response?.data?.message || "Something went wrong";
     return Promise.reject(new Error(message));
-  }
+  },
 );
 
 // API functions for tutors
@@ -29,11 +29,17 @@ export const tutorApi = {
   updateProfile: (data: any) =>
     api.put("/tutors/me/profile", data).then((res) => res.data),
   getMyProfile: () => api.get("/tutors/me/profile").then((res) => res.data),
-  getMyAvailability: () => api.get("/tutors/me/availability").then((res) => res.data),
-  addAvailability: (data: { dayOfWeek: number; startTime: string; endTime: string }) =>
-    api.post("/tutors/me/availability", data).then((res) => res.data),
-  updateAvailability: (id: string, data: { dayOfWeek?: number; startTime?: string; endTime?: string }) =>
-    api.put(`/tutors/me/availability/${id}`, data).then((res) => res.data),
+  getMyAvailability: () =>
+    api.get("/tutors/me/availability").then((res) => res.data),
+  addAvailability: (data: {
+    dayOfWeek: number;
+    startTime: string;
+    endTime: string;
+  }) => api.post("/tutors/me/availability", data).then((res) => res.data),
+  updateAvailability: (
+    id: string,
+    data: { dayOfWeek?: number; startTime?: string; endTime?: string },
+  ) => api.put(`/tutors/me/availability/${id}`, data).then((res) => res.data),
   deleteAvailability: (id: string) =>
     api.delete(`/tutors/me/availability/${id}`).then((res) => res.data),
 };
@@ -45,7 +51,8 @@ export const categoryApi = {
   create: (data: any) => api.post("/categories", data).then((res) => res.data),
   update: (id: string, data: any) =>
     api.put(`/categories/${id}`, data).then((res) => res.data),
-  delete: (id: string) => api.delete(`/categories/${id}`).then((res) => res.data),
+  delete: (id: string) =>
+    api.delete(`/categories/${id}`).then((res) => res.data),
 };
 
 // API functions for bookings
@@ -66,7 +73,9 @@ export const bookingApi = {
 export const reviewApi = {
   create: (data: any) => api.post("/reviews", data).then((res) => res.data),
   getTutorReviews: (tutorProfileId: string, params?: Record<string, any>) =>
-    api.get(`/reviews/tutor/${tutorProfileId}`, { params }).then((res) => res.data),
+    api
+      .get(`/reviews/tutor/${tutorProfileId}`, { params })
+      .then((res) => res.data),
   getMyReviews: (params?: Record<string, any>) =>
     api.get("/reviews/me", { params }).then((res) => res.data),
   update: (id: string, data: any) =>
@@ -76,7 +85,8 @@ export const reviewApi = {
 // API functions for users
 export const userApi = {
   getProfile: () => api.get("/users/me").then((res) => res.data),
-  updateProfile: (data: any) => api.put("/users/me", data).then((res) => res.data),
+  updateProfile: (data: any) =>
+    api.put("/users/me", data).then((res) => res.data),
   getDashboard: () => api.get("/users/dashboard").then((res) => res.data),
 };
 

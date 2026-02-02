@@ -145,12 +145,19 @@ export default function TutorBookingsPage() {
       <div className="container-custom py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Link href="/tutor/dashboard" className="text-secondary-600 hover:text-primary-600">
+          <Link
+            href="/tutor/dashboard"
+            className="text-secondary-600 hover:text-primary-600"
+          >
             <FiChevronLeft className="w-6 h-6" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-secondary-900">Manage Bookings</h1>
-            <p className="text-secondary-600">View and manage student session requests</p>
+            <h1 className="text-2xl font-bold text-secondary-900">
+              Manage Bookings
+            </h1>
+            <p className="text-secondary-600">
+              View and manage student session requests
+            </p>
           </div>
         </div>
 
@@ -229,15 +236,20 @@ export default function TutorBookingsPage() {
                     <div className="flex flex-wrap items-center gap-4 mt-2 text-secondary-600 justify-center sm:justify-start">
                       <div className="flex items-center gap-1">
                         <FiCalendar />
-                        <span>{new Date(booking.scheduledAt).toLocaleDateString()}</span>
+                        <span>
+                          {new Date(booking.scheduledAt).toLocaleDateString()}
+                        </span>
                       </div>
                       <div className="flex items-center gap-1">
                         <FiClock />
                         <span>
-                          {new Date(booking.scheduledAt).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
+                          {new Date(booking.scheduledAt).toLocaleTimeString(
+                            [],
+                            {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            },
+                          )}
                         </span>
                       </div>
                       <span>{booking.duration} mins</span>
@@ -299,7 +311,9 @@ export default function TutorBookingsPage() {
         {pagination.totalPages > 1 && (
           <div className="flex items-center justify-center gap-4 mt-8">
             <button
-              onClick={() => setPagination((prev) => ({ ...prev, page: prev.page - 1 }))}
+              onClick={() =>
+                setPagination((prev) => ({ ...prev, page: prev.page - 1 }))
+              }
               disabled={pagination.page === 1}
               className="btn bg-white border border-secondary-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
@@ -309,7 +323,9 @@ export default function TutorBookingsPage() {
               Page {pagination.page} of {pagination.totalPages}
             </span>
             <button
-              onClick={() => setPagination((prev) => ({ ...prev, page: prev.page + 1 }))}
+              onClick={() =>
+                setPagination((prev) => ({ ...prev, page: prev.page + 1 }))
+              }
               disabled={pagination.page === pagination.totalPages}
               className="btn bg-white border border-secondary-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >

@@ -38,7 +38,7 @@ export default function LoginPage() {
       }
 
       toast.success("Login successful!");
-      
+
       // Redirect based on role (role is added by backend)
       const user = result.data?.user as { role?: string } | undefined;
       if (user?.role === "ADMIN") {
@@ -61,7 +61,9 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="card p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-secondary-900">Welcome Back</h1>
+            <h1 className="text-3xl font-bold text-secondary-900">
+              Welcome Back
+            </h1>
             <p className="text-secondary-600 mt-2">
               Sign in to continue to SkillBridge
             </p>
@@ -83,12 +85,14 @@ export default function LoginPage() {
                       message: "Invalid email address",
                     },
                   })}
-                  className="input-field pl-10"
+                  className="input-field pl-10 focus:outline-none focus:ring-0 focus:border-secondary-200"
                   placeholder="you@example.com"
                 />
               </div>
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
@@ -107,7 +111,7 @@ export default function LoginPage() {
                       message: "Password must be at least 6 characters",
                     },
                   })}
-                  className="input-field pl-10 pr-10"
+                  className="input-field pl-10 pr-10 focus:outline-none focus:ring-0 focus:border-secondary-200"
                   placeholder="••••••••"
                 />
                 <button
@@ -119,7 +123,9 @@ export default function LoginPage() {
                 </button>
               </div>
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
               )}
             </div>
 
@@ -135,7 +141,10 @@ export default function LoginPage() {
           <div className="mt-6 text-center">
             <p className="text-secondary-600">
               Don&apos;t have an account?{" "}
-              <Link href="/register" className="text-primary-600 hover:underline font-medium">
+              <Link
+                href="/register"
+                className="text-primary-600 hover:underline font-medium"
+              >
                 Sign up
               </Link>
             </p>

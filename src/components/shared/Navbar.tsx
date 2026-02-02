@@ -44,18 +44,40 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link
-              href="/tutors"
-              className="text-secondary-600 hover:text-primary-600 transition-colors"
-            >
-              Find Tutors
-            </Link>
-            <Link
-              href="/categories"
-              className="text-secondary-600 hover:text-primary-600 transition-colors"
-            >
-              Categories
-            </Link>
+            {user?.role === "STUDENT" && (
+              <>
+                <Link
+                  href="/tutors"
+                  className="text-secondary-600 hover:text-primary-600 transition-colors"
+                >
+                  Find Tutors
+                </Link>
+                <Link
+                  href="/categories"
+                  className="text-secondary-600 hover:text-primary-600 transition-colors"
+                >
+                  Categories
+                </Link>
+              </>
+            )}
+            {user?.role === "ADMIN" && (
+              <Link
+                href={getDashboardLink()}
+                // onClick={() => setShowUserMenu(false)}
+                className=" text-secondary-600 hover:bg-secondary-50 hover:text-primary-600"
+              >
+                Dashboard
+              </Link>
+            )}
+            {user?.role === "TUTOR" && (
+              <Link
+                href="/tutor/bookings"
+                onClick={() => setShowUserMenu(false)}
+                className="text-secondary-600 hover:bg-secondary-50 hover:text-primary-600"
+              >
+                My Sessions
+              </Link>
+            )}
             {isPending ? (
               <div className="w-8 h-8 rounded-full bg-secondary-200 animate-pulse" />
             ) : isLoggedIn ? (
@@ -66,13 +88,21 @@ export default function Navbar() {
                 >
                   <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center overflow-hidden">
                     {user?.image ? (
-                      <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
+                      <img
+                        src={user.image}
+                        alt={user.name}
+                        className="w-full h-full object-cover"
+                      />
                     ) : (
                       <FiUser className="w-4 h-4 text-primary-600" />
                     )}
                   </div>
-                  <span className="font-medium">{user?.name?.split(" ")[0]}</span>
-                  <FiChevronDown className={`transition-transform ${showUserMenu ? "rotate-180" : ""}`} />
+                  <span className="font-medium">
+                    {user?.name?.split(" ")[0]}
+                  </span>
+                  <FiChevronDown
+                    className={`transition-transform ${showUserMenu ? "rotate-180" : ""}`}
+                  />
                 </button>
 
                 {showUserMenu && (
@@ -83,8 +113,12 @@ export default function Navbar() {
                     />
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-secondary-100 py-2 z-20">
                       <div className="px-4 py-2 border-b border-secondary-100">
-                        <p className="font-medium text-secondary-900 truncate">{user?.name}</p>
-                        <p className="text-sm text-secondary-500 truncate">{user?.email}</p>
+                        <p className="font-medium text-secondary-900 truncate">
+                          {user?.name}
+                        </p>
+                        <p className="text-sm text-secondary-500 truncate">
+                          {user?.email}
+                        </p>
                         <span className="inline-block mt-1 px-2 py-0.5 bg-primary-100 text-primary-700 text-xs rounded-full">
                           {user?.role}
                         </span>
@@ -96,7 +130,7 @@ export default function Navbar() {
                       >
                         Dashboard
                       </Link>
-                      {user?.role === "USER" && (
+                      {user?.role === "STUDENT" && (
                         <Link
                           href="/dashboard/bookings"
                           onClick={() => setShowUserMenu(false)}
@@ -105,17 +139,13 @@ export default function Navbar() {
                           My Bookings
                         </Link>
                       )}
-                      {user?.role === "TUTOR" && (
-                        <Link
-                          href="/tutor/bookings"
-                          onClick={() => setShowUserMenu(false)}
-                          className="block px-4 py-2 text-secondary-600 hover:bg-secondary-50 hover:text-primary-600"
-                        >
-                          My Sessions
-                        </Link>
-                      )}
+
                       <Link
-                        href={user?.role === "TUTOR" ? "/tutor/profile" : "/dashboard/profile"}
+                        href={
+                          user?.role === "TUTOR"
+                            ? "/tutor/profile"
+                            : "/dashboard/profile"
+                        }
                         onClick={() => setShowUserMenu(false)}
                         className="block px-4 py-2 text-secondary-600 hover:bg-secondary-50 hover:text-primary-600"
                       >
@@ -164,20 +194,24 @@ export default function Navbar() {
         {isOpen && (
           <div className="md:hidden pb-4">
             <div className="flex flex-col space-y-4">
-              <Link
-                href="/tutors"
-                onClick={() => setIsOpen(false)}
-                className="text-secondary-600 hover:text-primary-600 transition-colors"
-              >
-                Find Tutors
-              </Link>
-              <Link
-                href="/categories"
-                onClick={() => setIsOpen(false)}
-                className="text-secondary-600 hover:text-primary-600 transition-colors"
-              >
-                Categories
-              </Link>
+              {user?.role === "STUDENT" && (
+                <>
+                  <Link
+                    href="/tutors"
+                    onClick={() => setIsOpen(false)}
+                    className="text-secondary-600 hover:text-primary-600 transition-colors"
+                  >
+                    Find Tutors
+                  </Link>
+                  <Link
+                    href="/categories"
+                    onClick={() => setIsOpen(false)}
+                    className="text-secondary-600 hover:text-primary-600 transition-colors"
+                  >
+                    Categories
+                  </Link>
+                </>
+              )}
               {isLoggedIn ? (
                 <>
                   <Link
@@ -187,7 +221,7 @@ export default function Navbar() {
                   >
                     Dashboard
                   </Link>
-                  {user?.role === "USER" && (
+                  {user?.role === "STUDENT" && (
                     <Link
                       href="/dashboard/bookings"
                       onClick={() => setIsOpen(false)}
@@ -206,7 +240,11 @@ export default function Navbar() {
                     </Link>
                   )}
                   <Link
-                    href={user?.role === "TUTOR" ? "/tutor/profile" : "/dashboard/profile"}
+                    href={
+                      user?.role === "TUTOR"
+                        ? "/tutor/profile"
+                        : "/dashboard/profile"
+                    }
                     onClick={() => setIsOpen(false)}
                     className="text-secondary-600 hover:text-primary-600 transition-colors"
                   >

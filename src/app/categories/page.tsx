@@ -8,7 +8,9 @@ import { FiGrid, FiUsers, FiArrowRight } from "react-icons/fi";
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>(
+    {},
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -79,7 +81,8 @@ export default function CategoriesPage() {
             Explore Categories
           </h1>
           <p className="text-xl text-primary-100 max-w-2xl mx-auto">
-            Find expert tutors in a variety of subjects. Choose a category to get started.
+            Find expert tutors in a variety of subjects. Choose a category to
+            get started.
           </p>
         </div>
       </div>
@@ -92,7 +95,9 @@ export default function CategoriesPage() {
             <h2 className="text-xl font-semibold text-secondary-900 mb-2">
               No categories available
             </h2>
-            <p className="text-secondary-600">Check back soon for new subjects!</p>
+            <p className="text-secondary-600">
+              Check back soon for new subjects!
+            </p>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -103,8 +108,10 @@ export default function CategoriesPage() {
                 className="group relative overflow-hidden rounded-xl bg-white shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
               >
                 {/* Gradient background */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${gradients[index % gradients.length]} opacity-90`} />
-                
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${gradients[index % gradients.length]} opacity-90`}
+                />
+
                 {/* Content */}
                 <div className="relative p-6 text-white min-h-[180px] flex flex-col justify-between">
                   <div>
@@ -118,7 +125,7 @@ export default function CategoriesPage() {
                       </p>
                     )}
                   </div>
-                  
+
                   <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/20">
                     <div className="flex items-center gap-2">
                       <FiUsers className="w-4 h-4" />
@@ -141,9 +148,13 @@ export default function CategoriesPage() {
               Can't find what you're looking for?
             </h2>
             <p className="text-secondary-300 mb-6 max-w-2xl mx-auto">
-              Browse all our tutors and use search filters to find the perfect match for your learning needs.
+              Browse all our tutors and use search filters to find the perfect
+              match for your learning needs.
             </p>
-            <Link href="/tutors" className="btn bg-white text-secondary-900 hover:bg-secondary-100">
+            <Link
+              href="/tutors"
+              className="btn bg-white text-secondary-900 hover:bg-secondary-100"
+            >
               Browse All Tutors
             </Link>
           </div>

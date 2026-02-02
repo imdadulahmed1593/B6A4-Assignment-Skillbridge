@@ -6,7 +6,14 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { signUp } from "@/lib/auth-client";
-import { FiMail, FiLock, FiEye, FiEyeOff, FiUser, FiPhone } from "react-icons/fi";
+import {
+  FiMail,
+  FiLock,
+  FiEye,
+  FiEyeOff,
+  FiUser,
+  FiPhone,
+} from "react-icons/fi";
 
 interface RegisterFormData {
   name: string;
@@ -49,7 +56,9 @@ export default function RegisterPage() {
         return;
       }
 
-      toast.success("Registration successful! Please check your email to verify your account.");
+      toast.success(
+        "Registration successful! Please check your email to verify your account.",
+      );
       router.push("/login");
     } catch (error: any) {
       toast.error(error.message || "Registration failed");
@@ -63,7 +72,9 @@ export default function RegisterPage() {
       <div className="w-full max-w-md">
         <div className="card p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-secondary-900">Create Account</h1>
+            <h1 className="text-3xl font-bold text-secondary-900">
+              Create Account
+            </h1>
             <p className="text-secondary-600 mt-2">
               Join SkillBridge and start learning today
             </p>
@@ -90,7 +101,9 @@ export default function RegisterPage() {
                 />
               </div>
               {errors.name && (
-                <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.name.message}
+                </p>
               )}
             </div>
 
@@ -114,7 +127,9 @@ export default function RegisterPage() {
                 />
               </div>
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
@@ -204,7 +219,9 @@ export default function RegisterPage() {
                 </button>
               </div>
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
               )}
             </div>
 
@@ -244,7 +261,10 @@ export default function RegisterPage() {
           <div className="mt-6 text-center">
             <p className="text-secondary-600">
               Already have an account?{" "}
-              <Link href="/login" className="text-primary-600 hover:underline font-medium">
+              <Link
+                href="/login"
+                className="text-primary-600 hover:underline font-medium"
+              >
                 Sign in
               </Link>
             </p>

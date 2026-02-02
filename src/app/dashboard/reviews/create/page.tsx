@@ -38,8 +38,10 @@ export default function CreateReviewPage() {
     try {
       // Fetch user's bookings and find the specific one
       const response = await bookingApi.getMyBookings({ limit: 100 });
-      const foundBooking = response.data?.find((b: Booking) => b.id === bookingId);
-      
+      const foundBooking = response.data?.find(
+        (b: Booking) => b.id === bookingId,
+      );
+
       if (!foundBooking) {
         toast.error("Booking not found");
         router.push("/dashboard/bookings");
@@ -111,11 +113,16 @@ export default function CreateReviewPage() {
         <div className="max-w-xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <Link href="/dashboard/bookings?tab=past" className="text-secondary-600 hover:text-primary-600">
+            <Link
+              href="/dashboard/bookings?tab=past"
+              className="text-secondary-600 hover:text-primary-600"
+            >
               <FiChevronLeft className="w-6 h-6" />
             </Link>
             <div>
-              <h1 className="text-2xl font-bold text-secondary-900">Leave a Review</h1>
+              <h1 className="text-2xl font-bold text-secondary-900">
+                Leave a Review
+              </h1>
               <p className="text-secondary-600">Share your experience</p>
             </div>
           </div>
@@ -142,7 +149,8 @@ export default function CreateReviewPage() {
                   Session with {booking.tutor?.user?.name}
                 </p>
                 <p className="text-secondary-600 text-sm">
-                  {new Date(booking.scheduledAt).toLocaleDateString()} - {booking.duration} mins
+                  {new Date(booking.scheduledAt).toLocaleDateString()} -{" "}
+                  {booking.duration} mins
                 </p>
               </div>
             </div>

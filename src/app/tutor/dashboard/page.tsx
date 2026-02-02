@@ -74,16 +74,26 @@ export default function TutorDashboard() {
       });
 
       // Calculate stats from bookings
-      const allBookingsResponse = await bookingApi.getMyBookings({ limit: 100 });
+      const allBookingsResponse = await bookingApi.getMyBookings({
+        limit: 100,
+      });
       const allBookings = allBookingsResponse.data || [];
 
       const stats = {
         totalBookings: allBookings.length,
-        pendingBookings: allBookings.filter((b: Booking) => b.status === "PENDING").length,
-        completedSessions: allBookings.filter((b: Booking) => b.status === "COMPLETED").length,
+        pendingBookings: allBookings.filter(
+          (b: Booking) => b.status === "PENDING",
+        ).length,
+        completedSessions: allBookings.filter(
+          (b: Booking) => b.status === "COMPLETED",
+        ).length,
         totalEarnings: allBookings
           .filter((b: Booking) => b.status === "COMPLETED")
-          .reduce((sum: number, b: Booking) => sum + (profile?.hourlyRate || 0) * (b.duration / 60), 0),
+          .reduce(
+            (sum: number, b: Booking) =>
+              sum + (profile?.hourlyRate || 0) * (b.duration / 60),
+            0,
+          ),
       };
 
       setDashboardData({
@@ -156,7 +166,10 @@ export default function TutorDashboard() {
             </p>
           </div>
           {!dashboardData.profile && (
-            <Link href="/tutor/profile/setup" className="btn-primary flex items-center gap-2">
+            <Link
+              href="/tutor/profile/setup"
+              className="btn-primary flex items-center gap-2"
+            >
               <FiPlus /> Complete Your Profile
             </Link>
           )}
@@ -166,7 +179,8 @@ export default function TutorDashboard() {
         {!dashboardData.profile && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8">
             <p className="text-yellow-800">
-              <strong>Complete your profile</strong> to start receiving booking requests from students.
+              <strong>Complete your profile</strong> to start receiving booking
+              requests from students.
             </p>
           </div>
         )}
@@ -175,10 +189,14 @@ export default function TutorDashboard() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {stats.map((stat) => (
             <div key={stat.label} className="card p-6">
-              <div className={`w-12 h-12 rounded-lg ${stat.color} flex items-center justify-center mb-4`}>
+              <div
+                className={`w-12 h-12 rounded-lg ${stat.color} flex items-center justify-center mb-4`}
+              >
                 <stat.icon className="w-6 h-6" />
               </div>
-              <p className="text-2xl font-bold text-secondary-900">{stat.value}</p>
+              <p className="text-2xl font-bold text-secondary-900">
+                {stat.value}
+              </p>
               <p className="text-secondary-600 text-sm">{stat.label}</p>
             </div>
           ))}
@@ -191,7 +209,10 @@ export default function TutorDashboard() {
               <h2 className="text-xl font-semibold text-secondary-900">
                 Upcoming Sessions
               </h2>
-              <Link href="/tutor/bookings" className="text-primary-600 hover:underline text-sm">
+              <Link
+                href="/tutor/bookings"
+                className="text-primary-600 hover:underline text-sm"
+              >
                 View all
               </Link>
             </div>
@@ -204,7 +225,11 @@ export default function TutorDashboard() {
             ) : (
               <div className="space-y-4">
                 {dashboardData.upcomingBookings.map((booking) => (
-                  <BookingCard key={booking.id} booking={booking} onAction={fetchDashboardData} />
+                  <BookingCard
+                    key={booking.id}
+                    booking={booking}
+                    onAction={fetchDashboardData}
+                  />
                 ))}
               </div>
             )}
@@ -224,8 +249,12 @@ export default function TutorDashboard() {
                   <FiCalendar className="w-5 h-5 text-primary-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-secondary-900">Manage Bookings</p>
-                  <p className="text-sm text-secondary-600">View and manage session requests</p>
+                  <p className="font-medium text-secondary-900">
+                    Manage Bookings
+                  </p>
+                  <p className="text-sm text-secondary-600">
+                    View and manage session requests
+                  </p>
                 </div>
               </Link>
               <Link
@@ -236,8 +265,12 @@ export default function TutorDashboard() {
                   <FiClock className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-secondary-900">Set Availability</p>
-                  <p className="text-sm text-secondary-600">Configure your available hours</p>
+                  <p className="font-medium text-secondary-900">
+                    Set Availability
+                  </p>
+                  <p className="text-sm text-secondary-600">
+                    Configure your available hours
+                  </p>
                 </div>
               </Link>
               <Link
@@ -249,7 +282,9 @@ export default function TutorDashboard() {
                 </div>
                 <div>
                   <p className="font-medium text-secondary-900">Edit Profile</p>
-                  <p className="text-sm text-secondary-600">Update your tutor profile</p>
+                  <p className="text-sm text-secondary-600">
+                    Update your tutor profile
+                  </p>
                 </div>
               </Link>
             </div>
@@ -257,28 +292,40 @@ export default function TutorDashboard() {
             {/* Profile Summary */}
             {dashboardData.profile && (
               <div className="mt-6 pt-6 border-t border-secondary-100">
-                <h3 className="font-medium text-secondary-900 mb-3">Profile Summary</h3>
+                <h3 className="font-medium text-secondary-900 mb-3">
+                  Profile Summary
+                </h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-secondary-600">Hourly Rate</span>
-                    <span className="font-medium">${dashboardData.profile.hourlyRate}/hr</span>
+                    <span className="font-medium">
+                      ${dashboardData.profile.hourlyRate}/hr
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-secondary-600">Rating</span>
                     <div className="flex items-center gap-1">
                       <FiStar className="text-yellow-500 fill-yellow-500 w-4 h-4" />
-                      <span className="font-medium">{dashboardData.profile.rating.toFixed(1)}</span>
-                      <span className="text-secondary-500">({dashboardData.profile.totalReviews})</span>
+                      <span className="font-medium">
+                        {dashboardData.profile.rating.toFixed(1)}
+                      </span>
+                      <span className="text-secondary-500">
+                        ({dashboardData.profile.totalReviews})
+                      </span>
                     </div>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-secondary-600">Status</span>
-                    <span className={`px-2 py-0.5 rounded-full text-xs ${
-                      dashboardData.profile.isAvailable
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
-                    }`}>
-                      {dashboardData.profile.isAvailable ? "Available" : "Not Available"}
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-xs ${
+                        dashboardData.profile.isAvailable
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
+                    >
+                      {dashboardData.profile.isAvailable
+                        ? "Available"
+                        : "Not Available"}
                     </span>
                   </div>
                 </div>
@@ -291,7 +338,13 @@ export default function TutorDashboard() {
   );
 }
 
-function BookingCard({ booking, onAction }: { booking: Booking; onAction: () => void }) {
+function BookingCard({
+  booking,
+  onAction,
+}: {
+  booking: Booking;
+  onAction: () => void;
+}) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleConfirm = async () => {
@@ -346,10 +399,14 @@ function BookingCard({ booking, onAction }: { booking: Booking; onAction: () => 
             })}
           </p>
           <div className="flex items-center gap-2 mt-1">
-            <span className={`px-2 py-0.5 text-xs rounded-full ${statusColors[booking.status]}`}>
+            <span
+              className={`px-2 py-0.5 text-xs rounded-full ${statusColors[booking.status]}`}
+            >
               {booking.status}
             </span>
-            <span className="text-sm text-secondary-600">{booking.duration} mins</span>
+            <span className="text-sm text-secondary-600">
+              {booking.duration} mins
+            </span>
           </div>
         </div>
       </div>

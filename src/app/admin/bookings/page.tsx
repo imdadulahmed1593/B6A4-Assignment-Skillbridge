@@ -100,11 +100,16 @@ export default function AdminBookingsPage() {
       <div className="container-custom py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Link href="/admin" className="text-secondary-600 hover:text-primary-600">
+          <Link
+            href="/admin"
+            className="text-secondary-600 hover:text-primary-600"
+          >
             <FiChevronLeft className="w-6 h-6" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-secondary-900">All Bookings</h1>
+            <h1 className="text-2xl font-bold text-secondary-900">
+              All Bookings
+            </h1>
             <p className="text-secondary-600">View all platform bookings</p>
           </div>
         </div>
@@ -119,7 +124,7 @@ export default function AdminBookingsPage() {
                 setStatusFilter(e.target.value);
                 setPagination((prev) => ({ ...prev, page: 1 }));
               }}
-              className="input-field"
+              className="input-field focus:outline-none focus:ring-0 focus:border-secondary-200"
             >
               <option value="">All Statuses</option>
               <option value="PENDING">Pending</option>
@@ -136,14 +141,19 @@ export default function AdminBookingsPage() {
             <div className="p-6">
               <div className="space-y-4">
                 {[...Array(5)].map((_, i) => (
-                  <div key={i} className="h-16 bg-secondary-100 rounded animate-pulse" />
+                  <div
+                    key={i}
+                    className="h-16 bg-secondary-100 rounded animate-pulse"
+                  />
                 ))}
               </div>
             </div>
           ) : bookings.length === 0 ? (
             <div className="p-12 text-center">
               <FiCalendar className="w-16 h-16 text-secondary-300 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-secondary-900 mb-2">No bookings found</h3>
+              <h3 className="text-lg font-semibold text-secondary-900 mb-2">
+                No bookings found
+              </h3>
               <p className="text-secondary-600">Try adjusting your filters</p>
             </div>
           ) : (
@@ -181,17 +191,22 @@ export default function AdminBookingsPage() {
                               {booking.student?.name?.charAt(0) || "S"}
                             </span>
                           </div>
-                          <span className="text-secondary-900">{booking.student?.name}</span>
+                          <span className="text-secondary-900">
+                            {booking.student?.name}
+                          </span>
                         </div>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
                             <span className="text-sm font-bold text-blue-600">
-                              {booking.tutor?.user?.name?.charAt(0) || "T"}
+                              {booking.tutorProfile?.user?.name?.charAt(0) ||
+                                "T"}
                             </span>
                           </div>
-                          <span className="text-secondary-900">{booking.tutor?.user?.name}</span>
+                          <span className="text-secondary-900">
+                            {booking.tutorProfile?.user?.name}
+                          </span>
                         </div>
                       </td>
                       <td className="px-6 py-4 text-secondary-600">
@@ -201,15 +216,22 @@ export default function AdminBookingsPage() {
                         </div>
                         <div className="flex items-center gap-2 text-sm">
                           <FiClock className="w-4 h-4" />
-                          {new Date(booking.scheduledAt).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
+                          {new Date(booking.scheduledAt).toLocaleTimeString(
+                            [],
+                            {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            },
+                          )}
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-secondary-600">{booking.duration} mins</td>
+                      <td className="px-6 py-4 text-secondary-600">
+                        {booking.duration} mins
+                      </td>
                       <td className="px-6 py-4">
-                        <span className={`px-2 py-1 text-xs rounded-full ${statusColors[booking.status]}`}>
+                        <span
+                          className={`px-2 py-1 text-xs rounded-full ${statusColors[booking.status]}`}
+                        >
                           {booking.status}
                         </span>
                       </td>
@@ -229,12 +251,14 @@ export default function AdminBookingsPage() {
           <div className="flex items-center justify-between mt-6">
             <p className="text-secondary-600 text-sm">
               Showing {(pagination.page - 1) * pagination.limit + 1} to{" "}
-              {Math.min(pagination.page * pagination.limit, pagination.total)} of{" "}
-              {pagination.total} bookings
+              {Math.min(pagination.page * pagination.limit, pagination.total)}{" "}
+              of {pagination.total} bookings
             </p>
             <div className="flex items-center gap-2">
               <button
-                onClick={() => setPagination((prev) => ({ ...prev, page: prev.page - 1 }))}
+                onClick={() =>
+                  setPagination((prev) => ({ ...prev, page: prev.page - 1 }))
+                }
                 disabled={pagination.page === 1}
                 className="btn bg-white border border-secondary-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -244,7 +268,9 @@ export default function AdminBookingsPage() {
                 Page {pagination.page} of {pagination.totalPages}
               </span>
               <button
-                onClick={() => setPagination((prev) => ({ ...prev, page: prev.page + 1 }))}
+                onClick={() =>
+                  setPagination((prev) => ({ ...prev, page: prev.page + 1 }))
+                }
                 disabled={pagination.page === pagination.totalPages}
                 className="btn bg-white border border-secondary-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
